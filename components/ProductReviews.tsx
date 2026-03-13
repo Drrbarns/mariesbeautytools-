@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { cachedQuery, invalidateCache } from '@/lib/query-cache';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
@@ -36,16 +36,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
   });
   const { getToken, verifying } = useRecaptcha();
 
-  useEffect(() => {
-    // Check auth
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user || null);
-    });
-
-    fetchReviews();
-  }, [productId]);
-
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       // Fetch approved reviews (cached for 5 minutes)
       const { data, error } = await cachedQuery<{ data: any; error: any }>(
@@ -84,7 +75,14 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [productId]);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+    });
+    fetchReviews();
+  }, [productId, fetchReviews]);
 
   const averageRating = reviews.length > 0
     ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
@@ -157,7 +155,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
           <p className="text-gray-500 mb-4">No reviews yet. Be the first to review!</p>
           <button
             onClick={() => setShowReviewForm(true)}
-            className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+            className="bg-stone-700 hover:bg-stone-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
           >
             Write a Review
           </button>
@@ -185,7 +183,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
                   <div key={dist.star} className="flex items-center space-x-3">
                     <button
                       onClick={() => setFilter(dist.star.toString())}
-                      className="flex items-center space-x-1 hover:text-blue-700 transition-colors"
+                      className="flex items-center space-x-1 hover:text-stone-700 transition-colors"
                     >
                       <span className="text-sm font-medium w-6">{dist.star}</span>
                       <i className="ri-star-fill text-yellow-400 text-sm"></i>
@@ -208,7 +206,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
               <button
                 onClick={() => setFilter('all')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${filter === 'all'
-                  ? 'bg-blue-700 text-white'
+                  ? 'bg-stone-700 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
               >
@@ -220,7 +218,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
             {!showReviewForm && (
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap"
+                className="bg-stone-700 hover:bg-stone-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap"
               >
                 Write a Review
               </button>
@@ -264,7 +262,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
               type="text"
               value={reviewForm.title}
               onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500"
               placeholder="Sum up your experience"
               required
               disabled={!user}
@@ -277,7 +275,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
               value={reviewForm.content}
               onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
               rows={4}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500"
               placeholder="Share your experience with this product"
               required
               disabled={!user}
@@ -288,7 +286,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
             <button
               type="submit"
               disabled={isSubmitting || !user}
-              className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap disabled:opacity-50"
+              className="bg-stone-700 hover:bg-stone-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap disabled:opacity-50"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Review'}
             </button>
@@ -308,14 +306,14 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
           <div key={review.id} className="pb-6 border-b border-gray-200 last:border-0">
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-blue-700 font-bold text-lg">
+                <div className="w-12 h-12 flex items-center justify-center bg-stone-100 rounded-full text-stone-700 font-bold text-lg">
                   {review.author.charAt(0)}
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-gray-900">{review.author}</span>
                     {review.verified && (
-                      <span className="flex items-center text-xs text-blue-700 bg-blue-50 px-2 py-1 rounded">
+                      <span className="flex items-center text-xs text-stone-700 bg-stone-50 px-2 py-1 rounded">
                         <i className="ri-checkbox-circle-fill mr-1"></i>
                         Verified Must Have
                       </span>
@@ -340,7 +338,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
             <p className="text-gray-700 mb-4">{review.content}</p>
 
             <div className="flex items-center space-x-4 text-sm">
-              <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-700 transition-colors">
+              <button className="flex items-center space-x-1 text-gray-600 hover:text-stone-700 transition-colors">
                 <i className="ri-thumb-up-line"></i>
                 <span>Helpful ({review.helpful})</span>
               </button>

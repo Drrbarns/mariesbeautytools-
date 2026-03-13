@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, AreaChart, Area, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -25,11 +25,7 @@ export default function AnalyticsPage() {
     conversionGrowth: 0
   });
 
-  useEffect(() => {
-    fetchAnalytics();
-  }, [timeRange]);
-
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -160,7 +156,11 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [fetchAnalytics]);
 
   const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
 
@@ -176,14 +176,14 @@ export default function AnalyticsPage() {
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium pr-8 cursor-pointer bg-white"
+              className="px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 font-medium pr-8 cursor-pointer bg-white"
             >
               <option value="7days">Last 7 Days</option>
               <option value="30days">Last 30 Days</option>
               <option value="90days">Last 90 Days</option>
               <option value="year">This Year</option>
             </select>
-            <button className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center">
+            <button className="bg-stone-700 hover:bg-stone-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center">
               <i className="ri-download-line mr-2"></i>
               Export
             </button>
@@ -200,10 +200,10 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg">
-                <i className="ri-money-dollar-circle-line text-2xl text-blue-700"></i>
+              <div className="w-12 h-12 flex items-center justify-center bg-stone-100 rounded-lg">
+                <i className="ri-money-dollar-circle-line text-2xl text-stone-700"></i>
               </div>
-              <span className="text-blue-700 font-semibold text-sm">Live</span>
+              <span className="text-stone-700 font-semibold text-sm">Live</span>
             </div>
             <p className="text-sm text-gray-600 mb-1">Total Revenue</p>
             <p className="text-3xl font-bold text-gray-900">GH₵{metrics.revenue.toLocaleString()}</p>
@@ -211,8 +211,8 @@ export default function AnalyticsPage() {
 
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg">
-                <i className="ri-shopping-cart-line text-2xl text-blue-700"></i>
+              <div className="w-12 h-12 flex items-center justify-center bg-stone-100 rounded-lg">
+                <i className="ri-shopping-cart-line text-2xl text-stone-700"></i>
               </div>
             </div>
             <p className="text-sm text-gray-600 mb-1">Total Orders</p>
@@ -313,7 +313,7 @@ export default function AnalyticsPage() {
                     <tr key={index}>
                       <td className="py-3 text-sm font-medium text-gray-900">{product.name}</td>
                       <td className="py-3 text-right text-sm text-gray-600">{product.units}</td>
-                      <td className="py-3 text-right text-sm font-semibold text-blue-600">GH₵{product.revenue.toLocaleString()}</td>
+                      <td className="py-3 text-right text-sm font-semibold text-stone-600">GH₵{product.revenue.toLocaleString()}</td>
                     </tr>
                   ))}
                   {topProducts.length === 0 && <tr><td colSpan={3} className="text-center py-4 text-gray-500">No sales data yet.</td></tr>}

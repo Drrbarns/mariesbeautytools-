@@ -11,7 +11,7 @@ export default function AboutPage() {
   const { getSetting } = useCMS();
   const [activeTab, setActiveTab] = useState('story');
 
-  const siteName = getSetting('site_name') || 'MultiMey Supplies';
+  const siteName = getSetting('site_name') || 'Maries Hair';
 
   const values = [
     {
@@ -39,8 +39,9 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <PageHero
-        title="More Than Just A Brand"
-        subtitle="From Accra to your doorstep — quality dresses, electronics, bags, shoes and more at prices that make sense."
+        title="Our Story"
+        subtitle="Premium wigs and luxury extensions designed to make every moment feel special."
+        backgroundImage="/hero_about_1772074892869.png"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -48,7 +49,7 @@ export default function AboutPage() {
           <button
             onClick={() => setActiveTab('story')}
             className={`px-4 py-2 sm:px-8 sm:py-4 font-medium transition-colors text-lg cursor-pointer ${activeTab === 'story'
-              ? 'text-blue-700 border-b-4 border-blue-700 font-bold'
+              ? 'text-stone-700 border-b-4 border-stone-700 font-bold'
               : 'text-gray-500 hover:text-gray-700'
               }`}
           >
@@ -57,7 +58,7 @@ export default function AboutPage() {
           <button
             onClick={() => setActiveTab('mission')}
             className={`px-4 py-2 sm:px-8 sm:py-4 font-medium transition-colors text-lg cursor-pointer ${activeTab === 'mission'
-              ? 'text-blue-700 border-b-4 border-blue-700 font-bold'
+              ? 'text-stone-700 border-b-4 border-stone-700 font-bold'
               : 'text-gray-500 hover:text-gray-700'
               }`}
           >
@@ -66,57 +67,60 @@ export default function AboutPage() {
         </div>
 
         {activeTab === 'story' && (
-          <div className="grid md:grid-cols-2 gap-16 items-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">How It All Started</h2>
-              <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="order-2 md:order-1">
+              <div className="flex items-center gap-4 mb-8">
+                <span className="h-[1px] w-12 bg-stone-300"></span>
+                <span className="text-stone-500 text-sm tracking-[0.3em] uppercase font-medium">Our Story</span>
+              </div>
+              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-gray-900 mb-8 leading-[1.1] tracking-tight">
+                How It All <span className="italic font-light text-stone-500">Started</span>
+              </h2>
+              <div className="space-y-6 text-lg text-gray-600 font-light leading-[1.8]">
                 <p>
-                  <strong>MultiMey Supplies</strong> started with a simple idea: bring quality products to Ghanaians at fair prices. We saw how people were paying too much for items that could be sourced smarter — so we built a bridge between trusted Chinese manufacturers, local suppliers, and everyday shoppers.
+                  <strong>{siteName}</strong> started with a simple idea: bring beautifully curated pieces together in one place, so getting dressed feels effortless and exciting.
                 </p>
                 <p>
-                  What began as a small operation in Accra has grown into a full online store offering everything from trendy dresses and stylish bags to the latest electronics and durable shoes. We handpick every product, test it for quality, and price it fairly.
+                  From statement wigs and luxurious extensions to everyday essentials, every item is carefully selected for quality, comfort, and style. We believe great hair should feel accessible, inspiring, and uniquely you.
                 </p>
                 <p>
-                  Whether you are shopping for yourself, stocking your boutique, or looking for the perfect gift, <strong>MultiMey Supplies</strong> has you covered. We combine local sourcing with direct imports to give you the widest selection at the best value.
+                  Whether you are refreshing your wardrobe, shopping for a special occasion, or styling content for your brand, <strong>{siteName}</strong> is here to make every look feel intentional and complete.
                 </p>
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl bg-gray-100 relative flex items-center justify-center">
+
+            <div className="relative order-1 md:order-2 group">
+              <div className="aspect-[4/5] bg-stone-50 relative flex items-center justify-center overflow-hidden transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)]">
                 <img
-                  src="/logo.png"
-                  alt="MultiMey Supplies"
-                  className="w-2/3 h-auto object-contain opacity-80"
+                  src={getSetting('site_logo') || '/logo.png'}
+                  alt={siteName}
+                  className="w-3/5 h-auto object-contain mix-blend-multiply opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] relative z-10"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8">
-                  <p className="text-white font-bold text-xl">MultiMey Supplies</p>
-                  <p className="text-blue-200">Founder & CEO</p>
-                </div>
               </div>
-              {/* Decorative Element */}
-              <div className="absolute -z-10 top-10 -right-10 w-full h-full border-4 border-blue-100 rounded-2xl hidden md:block"></div>
+              {/* Architectural offset shadow element instead of heavy glowing shadows */}
+              <div className="absolute -z-10 -bottom-6 -right-6 w-full h-full bg-stone-100/80 transition-transform duration-1000 group-hover:-translate-y-2 group-hover:-translate-x-2 ease-[cubic-bezier(0.25,0.1,0.25,1)]"></div>
             </div>
           </div>
         )}
 
         {activeTab === 'mission' && (
           <div className="grid md:grid-cols-2 gap-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-blue-50 p-10 rounded-3xl border border-blue-100">
-              <div className="w-16 h-16 bg-blue-700 rounded-2xl flex items-center justify-center mb-8 shadow-lg">
-                <i className="ri-store-2-line text-3xl text-white"></i>
+            <div className="bg-stone-50 p-10 rounded-3xl border border-stone-100">
+              <div className="w-16 h-16 bg-stone-700 rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                <i className="ri-focus-3-line text-3xl text-white"></i>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">Everything in One Place</h3>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                From fashion to electronics, bags to shoes — we aim to be the only store you need. Our catalogue is constantly expanding with new arrivals sourced from trusted local and international suppliers.
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Mission Statement</h3>
+              <p className="text-gray-600 leading-relaxed text-sm lg:text-base">
+                To provide quality products, expert guidance, fast and reliable services to beauty enthusiasts and professionals.
               </p>
             </div>
             <div className="bg-amber-50 p-10 rounded-3xl border border-amber-100">
               <div className="w-16 h-16 bg-amber-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg">
-                <i className="ri-hand-heart-line text-3xl text-white"></i>
+                <i className="ri-eye-line text-3xl text-white"></i>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">Empowering Resellers</h3>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Vision Statement</h3>
               <p className="text-gray-600 text-lg leading-relaxed">
-                We support small businesses and resellers with competitive bulk pricing. Many of our products are available at wholesale rates, helping entrepreneurs across Ghana grow their own ventures.
+                To be the one stop beauty store delivering quality, comfort and reliability without compromise.
               </p>
             </div>
           </div>
@@ -133,8 +137,8 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                  <i className={`${value.icon} text-2xl text-blue-700`}></i>
+                <div className="w-14 h-14 bg-stone-100 rounded-full flex items-center justify-center mb-6">
+                  <i className={`${value.icon} text-2xl text-stone-700`}></i>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{value.description}</p>
@@ -145,15 +149,15 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="bg-blue-900 py-24">
+      <div className="bg-stone-900 py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to shop smarter?</h2>
-          <p className="text-xl text-blue-100 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Browse our collection of dresses, electronics, bags, shoes and more. New stock arrives weekly.
+          <p className="text-xl text-stone-100 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Browse our collection of premium wigs, extensions, closures, frontals and more. New stock arrives weekly.
           </p>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-3 bg-white text-blue-900 px-10 py-5 rounded-full font-bold text-lg hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
+            className="inline-flex items-center gap-3 bg-white text-stone-900 px-10 py-5 rounded-full font-bold text-lg hover:bg-stone-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
           >
             Start Shopping
             <i className="ri-arrow-right-line"></i>

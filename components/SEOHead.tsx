@@ -17,9 +17,9 @@ interface SEOProps {
 
 export function generateMetadata({
   title = 'Premium Online Shopping in Ghana',
-  description = 'Shop dresses, electronics, bags, shoes and more at MultiMey Supplies. Locally sourced and imported quality products delivered across Ghana.',
+  description = 'Maries Hair – hair care and beauty at Kpakpo mankralo road 55, Mataheko.',
   keywords = [],
-  ogImage = 'https://readdy.ai/api/search-image?query=modern%20premium%20ecommerce%20online%20shopping%20platform%20elegant%20design&width=1200&height=630&seq=ogimage&orientation=landscape',
+  ogImage,
   ogType = 'website',
   price,
   currency = 'GHS',
@@ -29,8 +29,10 @@ export function generateMetadata({
   author,
   noindex = false
 }: SEOProps): Metadata {
-  const siteName = 'PremiumShop Ghana';
-  const siteUrl = 'https://premiumshop.com';
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://example.com';
+  const defaultOgImage = `${siteUrl}/logo.png`;
+  const resolvedOgImage = ogImage || defaultOgImage;
+  const siteName = 'Maries Hair';
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
   const defaultKeywords = [
@@ -52,7 +54,7 @@ export function generateMetadata({
     openGraph: {
       title: fullTitle,
       description,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
+      images: [{ url: resolvedOgImage, width: 1200, height: 630, alt: title }],
       type: ogType as any,
       siteName,
       locale: 'en_GH'
@@ -61,7 +63,7 @@ export function generateMetadata({
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [ogImage]
+      images: [resolvedOgImage]
     },
     robots: noindex ? {
       index: false,
@@ -159,38 +161,37 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
 }
 
 export function generateOrganizationSchema() {
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://example.com';
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'PremiumShop Ghana',
-    url: 'https://premiumshop.com',
-    logo: 'https://readdy.ai/api/search-image?query=premium%20shop%20logo%20elegant%20modern&width=200&height=200&seq=logo&orientation=squarish',
+    name: 'Maries Hair',
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    image: `${siteUrl}/logo.png`,
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+233-XX-XXX-XXXX',
+      telephone: '+233547742920',
       contactType: 'Customer Service',
       areaServed: 'GH',
       availableLanguage: ['English']
     },
-    sameAs: [
-      'https://facebook.com/premiumshop',
-      'https://instagram.com/premiumshop',
-      'https://twitter.com/premiumshop'
-    ]
+    sameAs: []
   };
 }
 
 export function generateWebsiteSchema() {
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://example.com';
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'PremiumShop Ghana',
-    url: 'https://premiumshop.com',
+    name: 'Maries Hair',
+    url: siteUrl,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://premiumshop.com/shop?search={search_term_string}'
+        urlTemplate: `${siteUrl}/shop?search={search_term_string}`
       },
       'query-input': 'required name=search_term_string'
     }

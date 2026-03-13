@@ -122,7 +122,7 @@ function AccountContent() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <i className="ri-loader-4-line animate-spin text-4xl text-blue-700"></i>
+        <i className="ri-loader-4-line animate-spin text-4xl text-stone-700"></i>
       </div>
     );
   }
@@ -167,7 +167,7 @@ function AccountContent() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 md:mb-8">
             <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
-              <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xl md:text-2xl font-bold shadow-inner border-2 border-white">
+              <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-full bg-stone-100 flex items-center justify-center text-stone-700 text-xl md:text-2xl font-bold shadow-inner border-2 border-white">
                 {profileData.firstName?.[0] || user?.email?.[0]?.toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
@@ -199,11 +199,11 @@ function AccountContent() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left group ${activeTab === tab.id
-                        ? 'bg-blue-50 text-blue-700 shadow-sm'
+                        ? 'bg-stone-50 text-stone-700 shadow-sm'
                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                         }`}
                     >
-                      <i className={`${tab.icon} text-xl transition-colors ${activeTab === tab.id ? 'text-blue-700' : 'text-gray-400 group-hover:text-gray-600'}`}></i>
+                      <i className={`${tab.icon} text-xl transition-colors ${activeTab === tab.id ? 'text-stone-700' : 'text-gray-400 group-hover:text-gray-600'}`}></i>
                       <span>{tab.label}</span>
                     </button>
                   ))}
@@ -224,7 +224,7 @@ function AccountContent() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium whitespace-nowrap transition-all border shadow-sm ${activeTab === tab.id
-                      ? 'bg-blue-700 text-white border-blue-700 ring-2 ring-blue-100'
+                      ? 'bg-stone-700 text-white border-stone-700 ring-2 ring-stone-100'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
                       }`}
                   >
@@ -244,7 +244,7 @@ function AccountContent() {
                     <p className="text-gray-500 mb-8">Update your personal details and contact info.</p>
 
                     {profileMessage.text && (
-                      <div className={`mb-6 p-4 rounded-xl flex items-start gap-3 ${profileMessage.type === 'success' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
+                      <div className={`mb-6 p-4 rounded-xl flex items-start gap-3 ${profileMessage.type === 'success' ? 'bg-stone-50 text-stone-700 border border-stone-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
                         <i className={`text-xl mt-0.5 ${profileMessage.type === 'success' ? 'ri-checkbox-circle-line' : 'ri-error-warning-line'}`}></i>
                         <div>{profileMessage.text}</div>
                       </div>
@@ -258,7 +258,7 @@ function AccountContent() {
                             type="text"
                             value={profileData.firstName}
                             onChange={e => setProfileData({ ...profileData, firstName: e.target.value })}
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all bg-gray-50 focus:bg-white"
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-stone-50 focus:border-stone-500 transition-all bg-gray-50 focus:bg-white"
                           />
                         </div>
                         <div className="space-y-2">
@@ -267,7 +267,7 @@ function AccountContent() {
                             type="text"
                             value={profileData.lastName}
                             onChange={e => setProfileData({ ...profileData, lastName: e.target.value })}
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all bg-gray-50 focus:bg-white"
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-stone-50 focus:border-stone-500 transition-all bg-gray-50 focus:bg-white"
                           />
                         </div>
                       </div>
@@ -295,7 +295,7 @@ function AccountContent() {
                             value={profileData.phone}
                             onChange={e => setProfileData({ ...profileData, phone: e.target.value })}
                             placeholder="+233 XX XXX XXXX"
-                            className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all bg-gray-50 focus:bg-white"
+                            className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-stone-50 focus:border-stone-500 transition-all bg-gray-50 focus:bg-white"
                           />
                         </div>
                       </div>
@@ -304,7 +304,7 @@ function AccountContent() {
                         <button
                           type="submit"
                           disabled={profileLoading}
-                          className="px-8 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-700/20 active:scale-95 disabled:opacity-50 disabled:shadow-none"
+                          className="px-8 py-3 bg-stone-700 hover:bg-stone-800 text-white rounded-xl font-semibold transition-all shadow-lg shadow-stone-700/20 active:scale-95 disabled:opacity-50 disabled:shadow-none"
                         >
                           {profileLoading ? 'Saving Info...' : 'Save Profile Information'}
                         </button>
@@ -316,7 +316,7 @@ function AccountContent() {
                       <p className="text-gray-500 mb-6">Ensure your account uses a strong, unique password.</p>
 
                       {passwordMessage.text && (
-                        <div className={`mb-6 p-4 rounded-xl flex items-start gap-3 ${passwordMessage.type === 'success' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
+                        <div className={`mb-6 p-4 rounded-xl flex items-start gap-3 ${passwordMessage.type === 'success' ? 'bg-stone-50 text-stone-700 border border-stone-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
                           <i className={`text-xl mt-0.5 ${passwordMessage.type === 'success' ? 'ri-checkbox-circle-line' : 'ri-error-warning-line'}`}></i>
                           <div>{passwordMessage.text}</div>
                         </div>
@@ -332,7 +332,7 @@ function AccountContent() {
                                 type="password"
                                 value={passwordData.password}
                                 onChange={e => setPasswordData({ ...passwordData, password: e.target.value })}
-                                className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all bg-gray-50 focus:bg-white"
+                                className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-stone-50 focus:border-stone-500 transition-all bg-gray-50 focus:bg-white"
                               />
                             </div>
                           </div>
@@ -344,7 +344,7 @@ function AccountContent() {
                                 type="password"
                                 value={passwordData.confirmPassword}
                                 onChange={e => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                                className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all bg-gray-50 focus:bg-white"
+                                className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-stone-50 focus:border-stone-500 transition-all bg-gray-50 focus:bg-white"
                               />
                             </div>
                           </div>
@@ -373,10 +373,10 @@ function AccountContent() {
                         <Link
                           key={index}
                           href={option.link}
-                          className="flex items-center justify-between p-5 border border-gray-200 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all group bg-white"
+                          className="flex items-center justify-between p-5 border border-gray-200 rounded-2xl hover:border-stone-500 hover:shadow-md transition-all group bg-white"
                         >
                           <div className="flex items-center gap-3 min-w-0">
-                            <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors flex-shrink-0">
+                            <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-stone-100 group-hover:text-stone-700 transition-colors flex-shrink-0">
                               <i className={`${option.icon} text-xl`}></i>
                             </div>
                             <div className="min-w-0">
@@ -386,7 +386,7 @@ function AccountContent() {
                           </div>
                           <div className="flex items-center gap-3 flex-shrink-0">
                             {option.status === 'verified' && (
-                              <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex items-center gap-1">
+                              <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 bg-stone-100 text-stone-700 rounded-full flex items-center gap-1">
                                 <i className="ri-verified-badge-fill"></i> <span className="hidden sm:inline">Verified</span>
                               </span>
                             )}
@@ -395,7 +395,7 @@ function AccountContent() {
                                 <i className="ri-error-warning-fill"></i> <span className="hidden sm:inline">Verify</span>
                               </span>
                             )}
-                            <i className="ri-arrow-right-line text-gray-300 group-hover:text-blue-500 transition-colors"></i>
+                            <i className="ri-arrow-right-line text-gray-300 group-hover:text-stone-500 transition-colors"></i>
                           </div>
                         </Link>
                       ))}
@@ -415,7 +415,7 @@ export default function AccountPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <i className="ri-loader-4-line animate-spin text-4xl text-blue-700"></i>
+        <i className="ri-loader-4-line animate-spin text-4xl text-stone-700"></i>
       </div>
     }>
       <AccountContent />

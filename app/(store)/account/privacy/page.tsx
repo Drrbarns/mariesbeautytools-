@@ -80,12 +80,12 @@ export default function PrivacySettingsPage() {
       </div>
 
       <div className="max-w-4xl mx-auto p-4 space-y-6">
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+        <div className="bg-stone-50 border border-stone-200 rounded-xl p-4">
           <div className="flex gap-3">
-            <i className="ri-shield-check-line text-xl text-blue-600 flex-shrink-0 mt-0.5"></i>
+            <i className="ri-shield-check-line text-xl text-stone-600 flex-shrink-0 mt-0.5"></i>
             <div>
-              <h3 className="font-semibold text-blue-900 mb-1">Your Privacy Matters</h3>
-              <p className="text-sm text-blue-800">
+              <h3 className="font-semibold text-stone-900 mb-1">Your Privacy Matters</h3>
+              <p className="text-sm text-stone-800">
                 We are committed to protecting your personal information in compliance with GDPR, CCPA, and other privacy regulations.
               </p>
             </div>

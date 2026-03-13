@@ -30,16 +30,18 @@ export default function PWASplash() {
       <div className="pwa-splash-logo mb-6">
         <img
           src="/logo.png"
-          alt="MultiMey Supplies"
-          className="w-24 h-24 object-contain brightness-0 invert"
+          alt="Maries Hair"
+          className="w-24 h-24 object-contain rounded-full"
         />
       </div>
-      <h1 className="text-white text-xl font-bold font-serif mb-2">MultiMey Supplies</h1>
-      <p className="text-blue-200 text-sm font-medium mb-8">Dresses, Electronics, Bags & More</p>
-      <div className="pwa-splash-dots flex gap-1.5">
-        <span className="w-2 h-2 bg-white rounded-full" />
-        <span className="w-2 h-2 bg-white rounded-full" />
-        <span className="w-2 h-2 bg-white rounded-full" />
+      <div className="z-10 flex flex-col items-center animate-fade-in-up delay-300">
+        <h1 className="text-white text-xl font-bold font-serif mb-2">Maries Hair</h1>
+        <p className="text-stone-200 text-sm font-medium mb-8">Premium hair and luxury extensions</p>
+        <div className="flex gap-2">
+          <span className="w-2 h-2 bg-white rounded-full" />
+          <span className="w-2 h-2 bg-white rounded-full" />
+          <span className="w-2 h-2 bg-white rounded-full" />
+        </div>
       </div>
     </div>
   );

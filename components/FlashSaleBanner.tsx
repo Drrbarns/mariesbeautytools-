@@ -22,10 +22,12 @@ export default function FlashSaleBanner() {
     ctaLink: '/shop'
   };
 
+  const endTimeMs = flashSale.endTime.getTime();
+
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = flashSale.endTime.getTime() - now;
+      const distance = endTimeMs - now;
 
       if (distance < 0) {
         clearInterval(timer);
@@ -41,7 +43,7 @@ export default function FlashSaleBanner() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [endTimeMs]);
 
   if (!isVisible) return null;
 

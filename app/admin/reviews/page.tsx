@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function AdminReviewsPage() {
@@ -9,11 +9,7 @@ export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -55,7 +51,11 @@ export default function AdminReviewsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   const getInitials = (name: string) => {
     if (!name) return '??';
@@ -81,7 +81,7 @@ export default function AdminReviewsPage() {
 
   const statusColors: any = {
     'Pending': 'bg-amber-100 text-amber-700',
-    'Approved': 'bg-blue-100 text-blue-700',
+    'Approved': 'bg-stone-100 text-stone-700',
     'Rejected': 'bg-red-100 text-red-700'
   };
 
@@ -149,7 +149,7 @@ export default function AdminReviewsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <button
           onClick={() => setStatusFilter('all')}
-          className={`p-4 rounded-xl border-2 transition-all text-left ${statusFilter === 'all' ? 'border-blue-700 bg-blue-50' : 'border-gray-200 bg-white'
+          className={`p-4 rounded-xl border-2 transition-all text-left ${statusFilter === 'all' ? 'border-stone-700 bg-stone-50' : 'border-gray-200 bg-white'
             }`}
         >
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
@@ -165,10 +165,10 @@ export default function AdminReviewsPage() {
         </button>
         <button
           onClick={() => setStatusFilter('approved')}
-          className={`p-4 rounded-xl border-2 transition-all text-left ${statusFilter === 'approved' ? 'border-blue-700 bg-blue-50' : 'border-gray-200 bg-white'
+          className={`p-4 rounded-xl border-2 transition-all text-left ${statusFilter === 'approved' ? 'border-stone-700 bg-stone-50' : 'border-gray-200 bg-white'
             }`}
         >
-          <p className="text-2xl font-bold text-blue-700">{stats.approved}</p>
+          <p className="text-2xl font-bold text-stone-700">{stats.approved}</p>
           <p className="text-sm text-gray-600 mt-1">Approved</p>
         </button>
         <button
@@ -187,7 +187,7 @@ export default function AdminReviewsPage() {
             <h2 className="text-lg font-bold text-gray-900 text-transform capitalize">
               {statusFilter === 'all' ? 'All Reviews' : `${statusFilter} Reviews`}
             </h2>
-            <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium cursor-pointer">
+            <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 font-medium cursor-pointer">
               <option>Sort by Date</option>
               <option>Sort by Rating</option>
               <option>Sort by Helpful</option>
@@ -196,14 +196,14 @@ export default function AdminReviewsPage() {
         </div>
 
         {selectedReviews.length > 0 && (
-          <div className="p-4 bg-blue-50 border-b border-blue-200 flex items-center justify-between">
-            <p className="text-blue-800 font-semibold">
+          <div className="p-4 bg-stone-50 border-b border-stone-200 flex items-center justify-between">
+            <p className="text-stone-800 font-semibold">
               {selectedReviews.length} review{selectedReviews.length > 1 ? 's' : ''} selected
             </p>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => handleBulkAction('Approve')}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer"
+                className="px-4 py-2 bg-stone-600 hover:bg-stone-700 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer"
               >
                 <i className="ri-check-line mr-2"></i>
                 Approve
@@ -228,7 +228,7 @@ export default function AdminReviewsPage() {
                     type="checkbox"
                     checked={selectedReviews.length === filteredReviews.length && filteredReviews.length > 0}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                    className="w-4 h-4 text-stone-700 border-gray-300 rounded focus:ring-stone-500 cursor-pointer"
                   />
                 </th>
                 <th className="text-left py-4 px-4 text-sm font-semibold text-gray-700 w-1/4">Product</th>
@@ -251,7 +251,7 @@ export default function AdminReviewsPage() {
                         type="checkbox"
                         checked={selectedReviews.includes(review.id)}
                         onChange={() => handleSelectReview(review.id)}
-                        className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 text-stone-700 border-gray-300 rounded focus:ring-stone-500 cursor-pointer"
                       />
                     </td>
                     <td className="py-4 px-4">
@@ -266,7 +266,7 @@ export default function AdminReviewsPage() {
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+                        <div className="w-8 h-8 flex items-center justify-center bg-stone-100 text-stone-700 rounded-full text-xs font-semibold">
                           {review.customer.avatar}
                         </div>
                         <div>

@@ -11,6 +11,51 @@ interface SearchSuggestion {
   image: string;
 }
 
+const SEARCH_PRODUCTS: SearchSuggestion[] = [
+  {
+    id: '1',
+    name: 'Premium Wireless Headphones',
+    category: 'Electronics',
+    price: 450,
+    image: 'https://readdy.ai/api/search-image?query=premium%20wireless%20headphones%20with%20sleek%20black%20design%20and%20cushioned%20ear%20cups%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20style%20high%20quality&width=200&height=200&seq=search1&orientation=squarish'
+  },
+  {
+    id: '2',
+    name: 'Smart Fitness Watch',
+    category: 'Wearables',
+    price: 320,
+    image: 'https://readdy.ai/api/search-image?query=modern%20smart%20fitness%20watch%20with%20black%20band%20and%20digital%20display%20showing%20health%20metrics%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20style&width=200&height=200&seq=search2&orientation=squarish'
+  },
+  {
+    id: '3',
+    name: 'Leather Crossbody Bag',
+    category: 'Fashion',
+    price: 289,
+    image: 'https://readdy.ai/api/search-image?query=elegant%20premium%20leather%20crossbody%20bag%20in%20forest%20green%20color%20on%20clean%20white%20background%20professional%20product%20photography%20luxury%20style%20high%20quality&width=200&height=200&seq=search3&orientation=squarish'
+  },
+  {
+    id: '4',
+    name: 'Minimalist Ceramic Vase Set',
+    category: 'Home Decor',
+    price: 159,
+    image: 'https://readdy.ai/api/search-image?query=modern%20minimalist%20ceramic%20vase%20set%20in%20cream%20and%20charcoal%20colors%20on%20white%20background%20elegant%20home%20decor%20professional%20photography%20clean%20lines&width=200&height=200&seq=search4&orientation=squarish'
+  },
+  {
+    id: '5',
+    name: 'Organic Cotton T-Shirt',
+    category: 'Clothing',
+    price: 45,
+    image: 'https://readdy.ai/api/search-image?query=premium%20organic%20cotton%20t-shirt%20in%20white%20color%20on%20clean%20background%20professional%20clothing%20photography%20minimalist%20style%20high%20quality%20fabric&width=200&height=200&seq=search5&orientation=squarish'
+  },
+  {
+    id: '6',
+    name: 'Bamboo Desk Organizer',
+    category: 'Office',
+    price: 68,
+    image: 'https://readdy.ai/api/search-image?query=modern%20bamboo%20desk%20organizer%20with%20multiple%20compartments%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20office%20style%20high%20quality&width=200&height=200&seq=search6&orientation=squarish'
+  }
+];
+
 export default function AdvancedSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -19,51 +64,6 @@ export default function AdvancedSearch() {
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const allProducts: SearchSuggestion[] = [
-    {
-      id: '1',
-      name: 'Premium Wireless Headphones',
-      category: 'Electronics',
-      price: 450,
-      image: 'https://readdy.ai/api/search-image?query=premium%20wireless%20headphones%20with%20sleek%20black%20design%20and%20cushioned%20ear%20cups%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20style%20high%20quality&width=200&height=200&seq=search1&orientation=squarish'
-    },
-    {
-      id: '2',
-      name: 'Smart Fitness Watch',
-      category: 'Wearables',
-      price: 320,
-      image: 'https://readdy.ai/api/search-image?query=modern%20smart%20fitness%20watch%20with%20black%20band%20and%20digital%20display%20showing%20health%20metrics%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20style&width=200&height=200&seq=search2&orientation=squarish'
-    },
-    {
-      id: '3',
-      name: 'Leather Crossbody Bag',
-      category: 'Fashion',
-      price: 289,
-      image: 'https://readdy.ai/api/search-image?query=elegant%20premium%20leather%20crossbody%20bag%20in%20forest%20green%20color%20on%20clean%20white%20background%20professional%20product%20photography%20luxury%20style%20high%20quality&width=200&height=200&seq=search3&orientation=squarish'
-    },
-    {
-      id: '4',
-      name: 'Minimalist Ceramic Vase Set',
-      category: 'Home Decor',
-      price: 159,
-      image: 'https://readdy.ai/api/search-image?query=modern%20minimalist%20ceramic%20vase%20set%20in%20cream%20and%20charcoal%20colors%20on%20white%20background%20elegant%20home%20decor%20professional%20photography%20clean%20lines&width=200&height=200&seq=search4&orientation=squarish'
-    },
-    {
-      id: '5',
-      name: 'Organic Cotton T-Shirt',
-      category: 'Clothing',
-      price: 45,
-      image: 'https://readdy.ai/api/search-image?query=premium%20organic%20cotton%20t-shirt%20in%20white%20color%20on%20clean%20background%20professional%20clothing%20photography%20minimalist%20style%20high%20quality%20fabric&width=200&height=200&seq=search5&orientation=squarish'
-    },
-    {
-      id: '6',
-      name: 'Bamboo Desk Organizer',
-      category: 'Office',
-      price: 68,
-      image: 'https://readdy.ai/api/search-image?query=modern%20bamboo%20desk%20organizer%20with%20multiple%20compartments%20on%20clean%20white%20background%20professional%20product%20photography%20minimalist%20office%20style%20high%20quality&width=200&height=200&seq=search6&orientation=squarish'
-    }
-  ];
 
   useEffect(() => {
     const saved = localStorage.getItem('recentSearches');
@@ -85,7 +85,7 @@ export default function AdvancedSearch() {
 
   useEffect(() => {
     if (query.trim()) {
-      const filtered = allProducts.filter(product =>
+      const filtered = SEARCH_PRODUCTS.filter(product =>
         product.name.toLowerCase().includes(query.toLowerCase()) ||
         product.category.toLowerCase().includes(query.toLowerCase())
       ).slice(0, 5);
@@ -152,7 +152,7 @@ export default function AdvancedSearch() {
             }
           }}
           placeholder="Search products, categories..."
-          className="w-full pl-12 pr-24 py-3 border-2 border-gray-300 rounded-full focus:border-blue-700 focus:ring-2 focus:ring-blue-200 text-sm"
+          className="w-full pl-12 pr-24 py-3 border-2 border-gray-300 rounded-full focus:border-stone-700 focus:ring-2 focus:ring-stone-200 text-sm"
         />
         <i className="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400"></i>
         
@@ -223,7 +223,7 @@ export default function AdvancedSearch() {
                 <p className="text-xs font-semibold text-gray-500">Recent Searches</p>
                 <button
                   onClick={clearRecentSearches}
-                  className="text-xs text-blue-700 hover:text-blue-900 font-medium whitespace-nowrap"
+                  className="text-xs text-stone-700 hover:text-stone-900 font-medium whitespace-nowrap"
                 >
                   Clear All
                 </button>

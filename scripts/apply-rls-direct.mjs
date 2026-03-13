@@ -11,7 +11,8 @@ import fs from 'fs';
 // Read env
 const envContent = fs.readFileSync('.env.local', 'utf-8');
 const SERVICE_KEY = envContent.match(/SUPABASE_SERVICE_ROLE_KEY=(.+)/)?.[1]?.trim();
-const PROJECT_REF = 'bskojprmfxugvkycvetc';
+const urlMatch = envContent.match(/NEXT_PUBLIC_SUPABASE_URL=(.+)/);
+const PROJECT_REF = urlMatch ? (urlMatch[1].trim().match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] || 'your-project') : 'your-project';
 
 if (!SERVICE_KEY) {
     console.error('ERROR: SUPABASE_SERVICE_ROLE_KEY not found in .env.local');

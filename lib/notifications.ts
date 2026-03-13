@@ -3,15 +3,15 @@ import { supabase } from '@/lib/supabase';
 import { escapeHtml } from '@/lib/sanitize';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'missing_api_key');
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@standardecom.com';
-const EMAIL_FROM = process.env.EMAIL_FROM || 'MultiMey Supplies <noreply@multimeysupplies.com>';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
+const EMAIL_FROM = process.env.EMAIL_FROM || 'Maries Hair <no-reply@example.com>';
 const BRAND = {
-    name: 'MultiMey Supplies',
+    name: 'Maries Hair',
     color: '#2563eb',
     colorLight: '#eff6ff',
     colorDark: '#064e3b',
     url: (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/+$/, ''),
-    phone: '+233209597443',
+    phone: '0547742920',
 };
 
 // Reusable branded email layout
@@ -42,8 +42,8 @@ ${body}
 <tr><td style="background-color:#f9fafb;padding:24px 40px;border-top:1px solid #e5e7eb;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 <tr><td style="text-align:center;">
-<p style="margin:0 0 8px;color:#6b7280;font-size:13px;">Need help? Contact us at <a href="tel:${BRAND.phone}" style="color:${BRAND.color};text-decoration:none;">${BRAND.phone}</a></p>
-<p style="margin:0 0 12px;color:#6b7280;font-size:13px;"><a href="${BRAND.url}" style="color:${BRAND.color};text-decoration:none;">Visit our store</a> &nbsp;·&nbsp; <a href="${BRAND.url}/order-tracking" style="color:${BRAND.color};text-decoration:none;">Track order</a></p>
+         <p style="margin:0 0 8px;color:#6b7280;font-size:13px;">Need help? <a href="${BRAND.url}/contact" style="color:${BRAND.color};text-decoration:none;">Visit our help centre</a></p>
+         <p style="margin:0 0 12px;color:#6b7280;font-size:13px;"><a href="${BRAND.url}" style="color:${BRAND.color};text-decoration:none;">Visit our store</a> &nbsp;·&nbsp; <a href="${BRAND.url}/order-tracking" style="color:${BRAND.color};text-decoration:none;">Track order</a></p>
 <p style="margin:0;color:#9ca3af;font-size:11px;">&copy; ${new Date().getFullYear()} ${BRAND.name}. All rights reserved.</p>
 </td></tr>
 </table>
@@ -154,7 +154,7 @@ export async function sendSMS({ to, message }: { to: string; message: string }) 
             },
             body: JSON.stringify({
                 type: 1,
-                senderid: 'MultiMey',
+                senderid: 'MariesHair',
                 messages: [
                     {
                         recipient: recipient,
@@ -296,7 +296,7 @@ ${emailButton('View Order in Admin', `${baseUrl}/admin/orders/${id}`)}
     if (phone) {
         const smsMessage = trackingNumber
             ? `Hi ${name}, your order #${order_number || id} is confirmed! Tracking: ${trackingNumber}. Track here: ${trackingUrl}${shippingNotesSms}`
-            : `Hi ${name}, your order #${order_number || id} at MultiMey Supplies is confirmed! Track here: ${trackingUrl}${shippingNotesSms}`;
+            : `Hi ${name}, your order #${order_number || id} at ${BRAND.name} is confirmed! Track here: ${trackingUrl}${shippingNotesSms}`;
 
         await sendSMS({
             to: phone,
@@ -438,7 +438,7 @@ ${emailButton('Start Shopping', `${BRAND.url}/shop`)}
     if (phone) {
         await sendSMS({
             to: phone,
-            message: `Welcome ${firstName}! Thanks for joining MultiMey Supplies.`
+            message: `Welcome ${firstName}! Thanks for joining ${BRAND.name}.`
         });
     }
 }

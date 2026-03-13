@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function AdminCouponsPage() {
@@ -10,11 +10,7 @@ export default function AdminCouponsPage() {
   const [coupons, setCoupons] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
-
-  const fetchCoupons = async () => {
+  const fetchCoupons = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -43,7 +39,11 @@ export default function AdminCouponsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchCoupons();
+  }, [fetchCoupons]);
 
   const isCouponActive = (c: any) => {
     // Simple check
@@ -53,8 +53,8 @@ export default function AdminCouponsPage() {
   };
 
   const statusColors: any = {
-    'Active': 'bg-blue-100 text-blue-700',
-    'Scheduled': 'bg-blue-100 text-blue-700',
+    'Active': 'bg-stone-100 text-stone-700',
+    'Scheduled': 'bg-stone-100 text-stone-700',
     'Expired': 'bg-gray-100 text-gray-700',
     'Disabled': 'bg-red-100 text-red-700'
   };
@@ -76,7 +76,7 @@ export default function AdminCouponsPage() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer"
+          className="bg-stone-700 hover:bg-stone-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer"
         >
           <i className="ri-add-line mr-2"></i>
           Create Coupon
@@ -90,7 +90,7 @@ export default function AdminCouponsPage() {
         </div>
         <div className="bg-white rounded-xl border-2 border-gray-200 p-4">
           <p className="text-sm text-gray-600 mb-1">Active</p>
-          <p className="text-2xl font-bold text-blue-700">{activeCoupons.length}</p>
+          <p className="text-2xl font-bold text-stone-700">{activeCoupons.length}</p>
         </div>
         <div className="bg-white rounded-xl border-2 border-gray-200 p-4">
           <p className="text-sm text-gray-600 mb-1">Total Uses</p>
@@ -107,13 +107,13 @@ export default function AdminCouponsPage() {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-gray-900">All Coupons</h2>
             <div className="flex items-center space-x-3">
-              <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium cursor-pointer">
+              <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 font-medium cursor-pointer">
                 <option>All Status</option>
                 <option>Active</option>
                 <option>Scheduled</option>
                 <option>Expired</option>
               </select>
-              <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium cursor-pointer">
+              <select className="px-4 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 font-medium cursor-pointer">
                 <option>Sort by Date</option>
                 <option>Sort by Usage</option>
                 <option>Sort by Value</option>
@@ -147,7 +147,7 @@ export default function AdminCouponsPage() {
                     <td className="py-4 px-6">
                       <div className="flex items-center space-x-2">
                         <span className="font-mono font-bold text-gray-900 bg-gray-100 px-3 py-1 rounded">{coupon.code}</span>
-                        <button className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors cursor-pointer">
+                        <button className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-stone-700 hover:bg-stone-50 rounded transition-colors cursor-pointer">
                           <i className="ri-file-copy-line"></i>
                         </button>
                       </div>
@@ -168,7 +168,7 @@ export default function AdminCouponsPage() {
                       {coupon.usageLimit && (
                         <div className="w-24 h-2 bg-gray-200 rounded-full mt-2">
                           <div
-                            className="h-full bg-blue-600 rounded-full"
+                            className="h-full bg-stone-600 rounded-full"
                             style={{ width: `${Math.min((coupon.usedCount / coupon.usageLimit) * 100, 100)}%` }}
                           ></div>
                         </div>
@@ -187,7 +187,7 @@ export default function AdminCouponsPage() {
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => handleEdit(coupon)}
-                          className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                          className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-stone-700 hover:bg-stone-50 rounded-lg transition-colors cursor-pointer"
                         >
                           <i className="ri-edit-line text-lg"></i>
                         </button>

@@ -134,7 +134,7 @@ export default function ProductCard({
 
       <div className="flex flex-col flex-grow">
         <Link href={`/product/${slug}`}>
-          <h3 className="font-serif text-lg leading-tight text-gray-900 mb-1 group-hover:text-blue-800 transition-colors line-clamp-2">
+          <h3 className="font-serif text-lg leading-tight text-gray-900 mb-1 group-hover:text-stone-800 transition-colors line-clamp-2">
             {name}
           </h3>
         </Link>
@@ -151,7 +151,7 @@ export default function ProductCard({
                 }}
                 className={`w-4 h-4 rounded-full border transition-all duration-200 flex-shrink-0 ${
                   activeColor === color.name
-                    ? 'ring-2 ring-offset-1 ring-blue-600 scale-110'
+                    ? 'ring-2 ring-offset-1 ring-stone-600 scale-110'
                     : 'hover:scale-110'
                 } ${color.hex === '#FFFFFF' ? 'border-gray-300' : 'border-transparent'}`}
                 style={{ backgroundColor: color.hex }}

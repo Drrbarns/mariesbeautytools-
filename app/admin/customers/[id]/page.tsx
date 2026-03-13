@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -14,13 +14,7 @@ export default function CustomerDetailsPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (customerId) {
-            fetchCustomerData();
-        }
-    }, [customerId]);
-
-    const fetchCustomerData = async () => {
+    const fetchCustomerData = useCallback(async () => {
         try {
             // 1. Fetch Profile
             const { data: profile, error: profileError } = await supabase
@@ -49,7 +43,13 @@ export default function CustomerDetailsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [customerId]);
+
+    useEffect(() => {
+        if (customerId) {
+            fetchCustomerData();
+        }
+    }, [customerId, fetchCustomerData]);
 
     if (loading) return <div className="p-8 text-center text-gray-500">Loading customer details...</div>;
     if (!customer) return <div className="p-8 text-center text-red-500">Customer not found</div>;
@@ -64,7 +64,7 @@ export default function CustomerDetailsPage() {
                     <Link href="/admin/customers" className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 transition-colors">
                         <i className="ri-arrow-left-line text-xl"></i>
                     </Link>
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-2xl font-bold">
+                    <div className="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center text-stone-700 text-2xl font-bold">
                         {customer.full_name?.charAt(0) || customer.email.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -77,7 +77,7 @@ export default function CustomerDetailsPage() {
                         <i className="ri-mail-send-line mr-2"></i>
                         Send Email
                     </button>
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 cursor-pointer">
+                    <button className="px-4 py-2 bg-stone-600 text-white rounded-lg font-bold hover:bg-stone-700 cursor-pointer">
                         Edit Customer
                     </button>
                 </div>
@@ -127,7 +127,7 @@ export default function CustomerDetailsPage() {
                         <tbody className="divide-y divide-gray-100">
                             {orders.map(order => (
                                 <tr key={order.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 text-sm font-medium text-blue-600">
+                                    <td className="px-6 py-4 text-sm font-medium text-stone-600">
                                         <Link href={`/admin/orders/${order.id}`}>#{order.id.slice(0, 8)}</Link>
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-600">
@@ -135,9 +135,9 @@ export default function CustomerDetailsPage() {
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                                            ${order.status === 'completed' || order.status === 'delivered' ? 'bg-blue-100 text-blue-800' :
+                                            ${order.status === 'completed' || order.status === 'delivered' ? 'bg-stone-100 text-stone-800' :
                                                 order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                                    order.status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
+                                                    order.status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-stone-100 text-stone-800'}`}>
                                             {order.status.replace('_', ' ')}
                                         </span>
                                     </td>
@@ -145,7 +145,7 @@ export default function CustomerDetailsPage() {
                                         GH₵{(order.total || 0).toFixed(2)}
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <Link href={`/admin/orders/${order.id}`} className="text-gray-400 hover:text-blue-600">
+                                        <Link href={`/admin/orders/${order.id}`} className="text-gray-400 hover:text-stone-600">
                                             <i className="ri-eye-line text-lg"></i>
                                         </Link>
                                     </td>

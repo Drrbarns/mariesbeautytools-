@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Pacifico, Playfair_Display, Outfit } from "next/font/google";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import "./globals.css";
+
+const pacifico = Pacifico({ weight: '400', subsets: ['latin'], variable: '--font-pacifico' });
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -11,30 +16,31 @@ export const viewport: Viewport = {
   themeColor: '#2563eb',
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.multimeysupplies.com';
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://example.com';
 
+// Favicon & OG from public: add favicon.ico, favicon.png, og-image.png (1200×630) to public as needed
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "MultiMey Supplies | Quality Products & Supplies",
-    template: "%s | MultiMey Supplies"
+    default: "Maries Hair | Hair Care & Beauty",
+    template: "%s | Maries Hair"
   },
-  description: "Shop dresses, electronics, bags, shoes & more at MultiMey Supplies. Locally sourced and imported quality products delivered across Ghana from Accra.",
+  description: "Maries Hair – hair care and beauty at Kpakpo mankralo road 55, Mataheko. Visit us or call 0547742920.",
   keywords: [
-    "MultiMey Supplies",
-    "Online Store Ghana",
-    "Buy Dresses Online Ghana",
-    "Electronics Ghana",
-    "Bags and Shoes Accra",
-    "China Import Ghana",
-    "Affordable Fashion Ghana",
-    "Accra Online Shopping",
-    "Ghana E-commerce",
-    "Quality Products Accra"
+    "Maries Hair",
+    "Hair care",
+    "Beauty",
+    "Mataheko",
+    "Ghana",
+    "Women’s fashion",
+    "E-commerce",
+    "Shop online"
   ],
-  authors: [{ name: "MultiMey Supplies" }],
-  creator: "MultiMey Supplies",
-  publisher: "MultiMey Supplies",
+  authors: [{ name: "Maries Hair" }],
+  creator: "Maries Hair",
+  publisher: "Maries Hair",
+  applicationName: "Maries Hair",
+  referrer: "origin-when-cross-origin",
   robots: {
     index: true,
     follow: true,
@@ -48,61 +54,55 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/icon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icons/icon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/icon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/icons/icon-96x96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/logo.png', sizes: 'any', type: 'image/png' },
+      { url: '/logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '16x16', type: 'image/png' },
     ],
-    apple: [
-      { url: '/icons/icon-152x152.png', sizes: '152x152', type: 'image/png' },
-      { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icons/icon-384x384.png', sizes: '384x384', type: 'image/png' },
-      { url: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' },
-    ],
-    shortcut: '/favicon.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'MultiMey Supplies',
+    title: 'Maries Hair',
   },
   formatDetection: {
     telephone: true,
+    email: false,
+    address: false,
   },
   verification: {
-    // Add your Google Search Console verification code here
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
   },
   openGraph: {
     type: "website",
     locale: "en_GH",
     url: siteUrl,
-    title: "MultiMey Supplies | Quality Products & Supplies",
-    description: "Shop dresses, electronics, bags, shoes and more. Locally sourced and China-imported quality products delivered across Ghana.",
-    siteName: "MultiMey Supplies",
+    title: "Maries Hair | Hair Care & Beauty",
+    description: "Maries Hair – hair care and beauty at Kpakpo mankralo road 55, Mataheko. Call 0547742920.",
+    siteName: "Maries Hair",
     images: [
       {
-        url: "/og-image.png",
+        url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "MultiMey Supplies",
+        alt: "Maries Hair - Hair Care & Beauty",
+        type: "image/png",
       },
+      { url: "/logo.png", width: 1200, height: 630, alt: "Maries Hair", type: "image/png" },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MultiMey Supplies | Quality Products & Supplies",
-    description: "Dresses, electronics, bags, shoes and more. Quality products delivered across Ghana from Accra.",
-    images: ["/og-image.png"],
-    creator: "@mey_phua",
+    title: "Maries Hair | Hair Care & Beauty",
+    description: "Maries Hair – hair care and beauty at Kpakpo mankralo road 55, Mataheko.",
+    images: ["/logo.png"],
   },
   alternates: {
     canonical: siteUrl,
   },
+  category: "shopping",
 };
 
 // Google Analytics Measurement ID
@@ -122,19 +122,18 @@ export default function RootLayout({
         <meta name="theme-color" content="#2563eb" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="MultiMey Supplies" />
+        <meta name="apple-mobile-web-app-title" content="Maries Hair" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#2563eb" />
         <meta name="msapplication-tap-highlight" content="no" />
 
-        {/* Apple Touch Icons */}
-        <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png" />
-        <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+        {/* Favicon: logo */}
+        <link rel="icon" href="/logo.png" type="image/png" sizes="any" />
+        <link rel="shortcut icon" href="/logo.png" />
 
-        {/* Apple Splash Screens */}
-        <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
+        {/* Apple Touch Icons */}
+        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="apple-touch-startup-image" href="/logo.png" />
 
         <link
           href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
@@ -142,7 +141,6 @@ export default function RootLayout({
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
         {/* Structured Data - Organization */}
         <script
@@ -151,18 +149,21 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "MultiMey Supplies",
-              "url": "https://www.multimeysupplies.com",
-              "logo": "https://www.multimeysupplies.com/logo.png",
-              "description": "Shop dresses, electronics, bags, shoes and more at MultiMey Supplies. Locally sourced and China-imported quality products delivered across Ghana from Accra.",
+              "name": "Maries Hair",
+              "url": siteUrl,
+              "logo": siteUrl + "/logo.png",
+              "description": "Maries Hair – hair care and beauty at Kpakpo mankralo road 55, Mataheko.",
               "address": {
                 "@type": "PostalAddress",
-                "addressCountry": "GH",
-                "addressLocality": "Accra"
+                "streetAddress": "Kpakpo mankralo road 55",
+                "addressLocality": "Mataheko"
               },
+              "telephone": "+233547742920",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
+                "telephone": "+233547742920",
+                "areaServed": "GH",
                 "availableLanguage": "English"
               }
             })
@@ -198,10 +199,10 @@ export default function RootLayout({
         />
       )}
 
-      <body className="antialiased font-sans overflow-x-hidden pwa-body">
+      <body className={`antialiased overflow-x-hidden pwa-body ${pacifico.variable} ${playfair.variable} ${outfit.variable} font-sans`} style={{ fontFamily: 'var(--font-outfit), system-ui, sans-serif' }}>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-6 focus:py-3 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-6 focus:py-3 focus:bg-stone-600 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-lg"
         >
           Skip to main content
         </a>

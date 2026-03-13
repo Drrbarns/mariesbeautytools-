@@ -6,7 +6,6 @@ import MiniCart from './MiniCart';
 import { useCart } from '@/context/CartContext';
 import { supabase } from '@/lib/supabase';
 import { useCMS } from '@/context/CMSContext';
-import AnnouncementBar from './AnnouncementBar';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,7 +17,8 @@ export default function Header() {
   const { cartCount, isCartOpen, setIsCartOpen } = useCart();
   const { getSetting } = useCMS();
 
-  const siteName = getSetting('site_name') || 'MultiMey Supplies';
+  const siteName = getSetting('site_name') || 'Maries Hair';
+  const headerLogo = getSetting('site_logo') || '/logo.png';
 
   useEffect(() => {
     // Wishlist logic
@@ -57,8 +57,6 @@ export default function Header() {
 
   return (
     <>
-      <AnnouncementBar />
-
       <header className="bg-white sticky top-0 z-50 border-b border-gray-100 transition-all duration-300">
         <div className="safe-area-top" />
         <nav aria-label="Main navigation" className="relative">
@@ -79,7 +77,7 @@ export default function Header() {
                   className="flex items-center select-none"
                   aria-label="Go to homepage"
                 >
-                  <img src="/logo.png" alt={siteName} className="h-9 md:h-11 w-auto object-contain" />
+                  <img src={headerLogo} alt={siteName} className="h-14 md:h-16 w-auto object-contain drop-shadow-md" style={{ filter: 'contrast(1.2) brightness(0.95)' }} />
                 </Link>
               </div>
 
@@ -166,41 +164,53 @@ export default function Header() {
       </header>
 
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-24">
-          <div className="bg-white rounded-lg w-full max-w-2xl mx-4 shadow-2xl">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900">Search Products</h3>
-                <button
-                  onClick={() => setIsSearchOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
-                >
-                  <i className="ri-close-line text-2xl"></i>
-                </button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center opacity-0 animate-fade-in" style={{ animationFillMode: 'forwards' }}>
+          {/* Blurred Dark Backdrop */}
+          <div
+            className="absolute inset-0 bg-stone-950/90 backdrop-blur-xl"
+            onClick={() => setIsSearchOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Search Content */}
+          <div className="relative w-full max-w-4xl mx-4 transform translate-y-8 animate-fade-in-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
+            <button
+              onClick={() => setIsSearchOpen(false)}
+              className="absolute -top-20 right-0 w-12 h-12 flex items-center justify-center text-stone-400 hover:text-white hover:rotate-90 transition-all duration-500 group"
+              aria-label="Close search"
+            >
+              <i className="ri-close-line text-4xl"></i>
+            </button>
+
+            <form onSubmit={handleSearch} className="relative group">
+              <div className="relative flex items-center">
+                <i className="ri-search-line text-3xl md:text-4xl text-stone-500 group-focus-within:text-white transition-colors duration-500 absolute left-0"></i>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="What are you looking for?"
+                  className="w-full bg-transparent border-none pl-12 md:pl-16 py-4 md:py-6 text-3xl md:text-5xl lg:text-6xl text-white placeholder-stone-700 focus:outline-none focus:ring-0 font-serif tracking-wide transition-all"
+                  autoFocus
+                />
               </div>
-              <form onSubmit={handleSearch}>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search for products..."
-                    className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base"
-                    autoFocus
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-blue-700 hover:text-blue-900"
-                  >
-                    <i className="ri-search-line text-xl"></i>
-                  </button>
-                </div>
-              </form>
+
+              {/* Elegant Underline Animation */}
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-stone-800">
+                <div className="h-full bg-white w-0 group-focus-within:w-full transition-all duration-700 ease-in-out"></div>
+              </div>
+            </form>
+
+            <div className="mt-12 opacity-0 animate-fade-in" style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}>
+              <p className="text-stone-500 text-sm tracking-[0.2em] uppercase text-center flex items-center justify-center gap-3">
+                <span className="w-8 h-px bg-stone-800"></span>
+                Press Enter to Explore
+                <span className="w-8 h-px bg-stone-800"></span>
+              </p>
             </div>
           </div>
         </div>
-      )
-      }
+      )}
 
       {/* Mobile Menu Drawer */}
       {isMobileMenuOpen && (
@@ -213,7 +223,7 @@ export default function Header() {
           <div className="absolute top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white shadow-xl flex flex-col animate-in slide-in-from-left duration-300">
             <div className="p-4 border-b border-gray-100 flex items-center justify-between">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <img src="/logo.png" alt={siteName} className="h-8 w-auto object-contain" />
+                <img src={headerLogo} alt={siteName} className="h-12 w-auto object-contain drop-shadow-md" style={{ filter: 'contrast(1.2) brightness(0.95)' }} />
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -235,7 +245,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-colors"
+                  className="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-stone-50 hover:text-stone-700 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

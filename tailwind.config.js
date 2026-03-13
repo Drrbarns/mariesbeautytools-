@@ -10,11 +10,11 @@ module.exports = {
       },
       colors: {
         brand: {
-          DEFAULT: '#2563eb',
-          light: '#3b82f6',
-          dark: '#1e40af',
-          accent: '#38bdf8',
-          muted: '#93c5fd',
+          DEFAULT: '#1c1917',
+          light: '#292524',
+          dark: '#0c0a09',
+          accent: '#44403c',
+          muted: '#78716c',
         },
       },
     },

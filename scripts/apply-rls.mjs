@@ -1,28 +1,36 @@
 /**
  * Apply Row Level Security (RLS) policies to all Supabase tables.
  * Run with: node scripts/apply-rls.mjs
- * 
+ *
  * Uses the Supabase Management API via the service role key.
  */
 
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://bskojprmfxugvkycvetc.supabase.co';
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+let SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+let serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!SERVICE_ROLE_KEY) {
-    // Read from .env.local
+if (!serviceKey || !SUPABASE_URL) {
     const fs = await import('fs');
-    const envContent = fs.readFileSync('.env.local', 'utf-8');
-    const match = envContent.match(/SUPABASE_SERVICE_ROLE_KEY=(.+)/);
-    if (match) {
-        var serviceKey = match[1].trim();
-    } else {
-        console.error('ERROR: Could not find SUPABASE_SERVICE_ROLE_KEY');
+    const envPath = '.env.local';
+    if (!fs.existsSync(envPath)) {
+        if (!serviceKey) console.error('ERROR: SUPABASE_SERVICE_ROLE_KEY not set and .env.local not found');
+        if (!SUPABASE_URL) console.error('ERROR: NEXT_PUBLIC_SUPABASE_URL not set and .env.local not found');
         process.exit(1);
     }
-} else {
-    var serviceKey = SERVICE_ROLE_KEY;
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    if (!SUPABASE_URL) {
+        const m = envContent.match(/NEXT_PUBLIC_SUPABASE_URL=(.+)/);
+        if (m) SUPABASE_URL = m[1].trim();
+    }
+    if (!serviceKey) {
+        const m = envContent.match(/SUPABASE_SERVICE_ROLE_KEY=(.+)/);
+        if (m) serviceKey = m[1].trim();
+    }
+    if (!SUPABASE_URL || !serviceKey) {
+        console.error('ERROR: Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local');
+        process.exit(1);
+    }
 }
 
 const supabase = createClient(SUPABASE_URL, serviceKey, {
@@ -236,7 +244,8 @@ const SQL_STATEMENTS = [
 ];
 
 console.log('=== Applying RLS Policies to Supabase ===\n');
-console.log(`Project: bskojprmfxugvkycvetc`);
+const projectRef = SUPABASE_URL.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] || 'your-project';
+console.log(`Project: ${projectRef}`);
 console.log(`Total SQL statements: ${SQL_STATEMENTS.length}\n`);
 
 let succeeded = 0;
@@ -279,6 +288,6 @@ console.log(`Skipped: ${skipped}`);
 if (failed > 0) {
     console.log(`\nNOTE: If all statements failed with "function exec_sql does not exist",`);
     console.log(`you need to run these SQL statements directly in the Supabase SQL Editor.`);
-    console.log(`Go to: https://supabase.com/dashboard/project/bskojprmfxugvkycvetc/sql/new`);
+    console.log(`Go to: https://supabase.com/dashboard/project/YOUR_PROJECT_REF/sql/new`);
     console.log(`\nCopy the SQL from SECURITY_RLS_SETUP.md and run it there.`);
 }

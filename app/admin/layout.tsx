@@ -261,7 +261,7 @@ export default function AdminLayout({
       >
         <div className="h-full px-4 py-6 overflow-y-auto">
           <Link href="/admin" className="flex items-center mb-8 px-2 cursor-pointer">
-            <span className="text-xl font-['Pacifico'] text-blue-700">MultiMey</span>
+            <span className="text-xl font-['Pacifico'] text-stone-700">Maries Hair</span>
             <span className="ml-3 text-sm font-semibold text-gray-500">ADMIN</span>
           </Link>
 
@@ -274,7 +274,7 @@ export default function AdminLayout({
                   href={item.path}
                   onClick={() => window.innerWidth < 1024 && setIsSidebarOpen(false)} // Close on mobile click
                   className={`flex items-center justify-between px-4 py-3 rounded-lg transition-colors cursor-pointer ${isActive
-                    ? 'bg-blue-50 text-blue-700 font-semibold'
+                    ? 'bg-stone-50 text-stone-700 font-semibold'
                     : 'text-gray-700 hover:bg-gray-50'
                     }`}
                 >
@@ -328,7 +328,7 @@ export default function AdminLayout({
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center space-x-2 lg:space-x-3 px-2 lg:px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
                 >
-                  <div className="w-8 h-8 lg:w-9 lg:h-9 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-semibold">
+                  <div className="w-8 h-8 lg:w-9 lg:h-9 flex items-center justify-center bg-stone-100 text-stone-700 rounded-full font-semibold">
                     {user?.email?.charAt(0).toUpperCase() || 'A'}
                   </div>
                   <div className="text-left hidden md:block">

@@ -440,7 +440,7 @@ export default function POSPage() {
                             placeholder="Search products..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 text-sm"
                             autoFocus
                         />
                     </div>
@@ -450,7 +450,7 @@ export default function POSPage() {
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
                                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${activeCategory === cat
-                                    ? 'bg-blue-700 text-white shadow-md'
+                                    ? 'bg-stone-700 text-white shadow-md'
                                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                     }`}
                             >
@@ -490,8 +490,8 @@ export default function POSPage() {
                                     <div className="p-3 flex flex-col flex-1">
                                         <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-auto">{product.name}</h3>
                                         <div className="flex items-center justify-between mt-2 pt-2">
-                                            <span className="text-blue-700 font-bold">GH₵{product.price.toFixed(2)}</span>
-                                            <button className="w-8 h-8 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center group-hover:bg-blue-700 group-hover:text-white transition-colors">
+                                            <span className="text-stone-700 font-bold">GH₵{product.price.toFixed(2)}</span>
+                                            <button className="w-8 h-8 rounded-full bg-stone-50 text-stone-700 flex items-center justify-center group-hover:bg-stone-700 group-hover:text-white transition-colors">
                                                 <i className="ri-add-line"></i>
                                             </button>
                                         </div>
@@ -507,7 +507,7 @@ export default function POSPage() {
                     <div className="lg:hidden p-4 border-t border-gray-200 bg-white fixed bottom-0 left-0 right-0 z-30 shadow-2xl safe-area-bottom">
                         <button
                             onClick={() => setIsMobileCartOpen(true)}
-                            className="w-full py-3 bg-blue-700 text-white rounded-xl font-bold flex justify-between px-6 shadow-lg active:scale-95 transition-transform"
+                            className="w-full py-3 bg-stone-700 text-white rounded-xl font-bold flex justify-between px-6 shadow-lg active:scale-95 transition-transform"
                         >
                             <span className="flex items-center text-sm">
                                 <span className="bg-white/20 px-2 py-0.5 rounded mr-2">{cart.reduce((a, b) => a + b.cartQuantity, 0)}</span>
@@ -532,7 +532,7 @@ export default function POSPage() {
                             Current Order
                         </h2>
                     </div>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded-full">
+                    <span className="bg-stone-100 text-stone-800 text-xs font-bold px-2 py-1 rounded-full">
                         {cart.reduce((a, b) => a + b.cartQuantity, 0)} Items
                     </span>
                 </div>
@@ -543,7 +543,7 @@ export default function POSPage() {
                         <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-4">
                             <i className="ri-shopping-cart-line text-5xl opacity-20"></i>
                             <p className="text-sm">Cart is empty</p>
-                            <button onClick={() => setIsMobileCartOpen(false)} className="lg:hidden text-blue-600 font-medium hover:underline">
+                            <button onClick={() => setIsMobileCartOpen(false)} className="lg:hidden text-stone-600 font-medium hover:underline">
                                 Start Adding Products
                             </button>
                         </div>
@@ -606,7 +606,7 @@ export default function POSPage() {
                         <button
                             onClick={() => { setShowCheckoutModal(true); setCheckoutError(null); }}
                             disabled={cart.length === 0}
-                            className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold text-sm shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-4 py-3 bg-stone-600 text-white rounded-lg hover:bg-stone-700 font-bold text-sm shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Charge GH₵{grandTotal.toFixed(2)}
                         </button>
@@ -621,8 +621,8 @@ export default function POSPage() {
                         {completedOrder ? (
                             // SUCCESS STATE
                             <div className="p-8 text-center flex flex-col items-center justify-center space-y-6 overflow-y-auto">
-                                <div className={`w-20 h-20 rounded-full flex items-center justify-center ${completedOrder.paymentPending ? 'bg-amber-100' : 'bg-blue-100'}`}>
-                                    <i className={`text-5xl ${completedOrder.paymentPending ? 'ri-time-line text-amber-600' : 'ri-checkbox-circle-fill text-blue-600'}`}></i>
+                                <div className={`w-20 h-20 rounded-full flex items-center justify-center ${completedOrder.paymentPending ? 'bg-amber-100' : 'bg-stone-100'}`}>
+                                    <i className={`text-5xl ${completedOrder.paymentPending ? 'ri-time-line text-amber-600' : 'ri-checkbox-circle-fill text-stone-600'}`}></i>
                                 </div>
                                 <div>
                                     <h2 className="text-2xl font-bold text-gray-900">
@@ -631,9 +631,9 @@ export default function POSPage() {
                                     <p className="text-gray-500 mt-1">Order #{completedOrder.orderNumber}</p>
 
                                     {!completedOrder.paymentPending && paymentMethod === 'cash' && changeDue > 0 && (
-                                        <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                            <p className="text-sm text-blue-700">Change Due</p>
-                                            <p className="text-2xl font-bold text-blue-800">GH₵{changeDue.toFixed(2)}</p>
+                                        <div className="mt-3 bg-stone-50 border border-stone-200 rounded-lg p-3">
+                                            <p className="text-sm text-stone-700">Change Due</p>
+                                            <p className="text-2xl font-bold text-stone-800">GH₵{changeDue.toFixed(2)}</p>
                                         </div>
                                     )}
 
@@ -657,7 +657,7 @@ export default function POSPage() {
                                                         navigator.clipboard.writeText(completedOrder.paymentUrl);
                                                         alert('Payment link copied!');
                                                     }}
-                                                    className="text-sm text-blue-700 hover:text-blue-800 font-medium underline"
+                                                    className="text-sm text-stone-700 hover:text-stone-800 font-medium underline"
                                                 >
                                                     <i className="ri-file-copy-line mr-1"></i>
                                                     Copy Link
@@ -672,7 +672,7 @@ export default function POSPage() {
                                         <i className="ri-printer-line mr-2"></i>
                                         Print Receipt
                                     </button>
-                                    <button onClick={resetCheckout} className="py-3 px-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                                    <button onClick={resetCheckout} className="py-3 px-4 bg-stone-600 text-white rounded-xl font-semibold hover:bg-stone-700 transition-colors">
                                         New Order
                                     </button>
                                 </div>
@@ -697,9 +697,9 @@ export default function POSPage() {
                                     )}
 
                                     {/* Total Display */}
-                                    <div className="text-center py-4 bg-blue-50 rounded-xl border border-blue-100">
-                                        <p className="text-sm text-blue-800 uppercase tracking-wide font-semibold">Amount to Pay</p>
-                                        <p className="text-4xl font-extrabold text-blue-700 mt-1">GH₵{grandTotal.toFixed(2)}</p>
+                                    <div className="text-center py-4 bg-stone-50 rounded-xl border border-stone-100">
+                                        <p className="text-sm text-stone-800 uppercase tracking-wide font-semibold">Amount to Pay</p>
+                                        <p className="text-4xl font-extrabold text-stone-700 mt-1">GH₵{grandTotal.toFixed(2)}</p>
                                     </div>
 
                                     {/* Customer Select */}
@@ -714,12 +714,12 @@ export default function POSPage() {
                                                 placeholder="Search customers by name, email, or phone..."
                                                 value={customerSearch}
                                                 onChange={(e) => setCustomerSearch(e.target.value)}
-                                                className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                                className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 outline-none text-sm"
                                             />
                                         </div>
 
                                         <select
-                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none mb-2"
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 outline-none mb-2"
                                             onChange={(e) => {
                                                 setSelectedCustomer(customers.find(c => c.id === e.target.value) || null);
                                             }}
@@ -734,7 +734,7 @@ export default function POSPage() {
                                         </select>
 
                                         {selectedCustomer && (
-                                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2 flex items-center justify-between">
+                                            <div className="bg-stone-50 border border-stone-200 rounded-lg p-3 mb-2 flex items-center justify-between">
                                                 <div>
                                                     <p className="font-semibold text-gray-900 text-sm">{selectedCustomer.full_name}</p>
                                                     <p className="text-xs text-gray-600">{selectedCustomer.email} {selectedCustomer.phone && `| ${selectedCustomer.phone}`}</p>
@@ -760,14 +760,14 @@ export default function POSPage() {
                                                         placeholder="First Name *"
                                                         value={guestDetails.firstName}
                                                         onChange={e => setGuestDetails({ ...guestDetails, firstName: e.target.value })}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                     />
                                                     <input
                                                         type="text"
                                                         placeholder="Last Name"
                                                         value={guestDetails.lastName}
                                                         onChange={e => setGuestDetails({ ...guestDetails, lastName: e.target.value })}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                     />
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-3">
@@ -776,14 +776,14 @@ export default function POSPage() {
                                                         placeholder="Email"
                                                         value={guestDetails.email}
                                                         onChange={e => setGuestDetails({ ...guestDetails, email: e.target.value })}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                     />
                                                     <input
                                                         type="tel"
                                                         placeholder={paymentMethod === 'momo' ? 'Phone (Required) *' : 'Phone'}
                                                         value={guestDetails.phone}
                                                         onChange={e => setGuestDetails({ ...guestDetails, phone: e.target.value })}
-                                                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm ${paymentMethod === 'momo' && !guestDetails.phone ? 'border-amber-400 bg-amber-50' : 'border-gray-300'
+                                                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm ${paymentMethod === 'momo' && !guestDetails.phone ? 'border-amber-400 bg-amber-50' : 'border-gray-300'
                                                             }`}
                                                     />
                                                 </div>
@@ -798,26 +798,26 @@ export default function POSPage() {
                                             <button
                                                 onClick={() => setDeliveryMethod('pickup')}
                                                 className={`p-3 rounded-lg border transition-all flex items-center space-x-3 ${deliveryMethod === 'pickup'
-                                                    ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600'
+                                                    ? 'border-stone-600 bg-stone-50 ring-1 ring-stone-600'
                                                     : 'border-gray-200 hover:border-gray-300'
                                                     }`}
                                             >
-                                                <i className={`ri-store-2-line text-xl ${deliveryMethod === 'pickup' ? 'text-blue-700' : 'text-gray-400'}`}></i>
+                                                <i className={`ri-store-2-line text-xl ${deliveryMethod === 'pickup' ? 'text-stone-700' : 'text-gray-400'}`}></i>
                                                 <div className="text-left">
-                                                    <p className={`text-sm font-semibold ${deliveryMethod === 'pickup' ? 'text-blue-800' : 'text-gray-700'}`}>Store Pickup</p>
+                                                    <p className={`text-sm font-semibold ${deliveryMethod === 'pickup' ? 'text-stone-800' : 'text-gray-700'}`}>Store Pickup</p>
                                                     <p className="text-xs text-gray-500">Customer picks up</p>
                                                 </div>
                                             </button>
                                             <button
                                                 onClick={() => setDeliveryMethod('doorstep')}
                                                 className={`p-3 rounded-lg border transition-all flex items-center space-x-3 ${deliveryMethod === 'doorstep'
-                                                    ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600'
+                                                    ? 'border-stone-600 bg-stone-50 ring-1 ring-stone-600'
                                                     : 'border-gray-200 hover:border-gray-300'
                                                     }`}
                                             >
-                                                <i className={`ri-truck-line text-xl ${deliveryMethod === 'doorstep' ? 'text-blue-700' : 'text-gray-400'}`}></i>
+                                                <i className={`ri-truck-line text-xl ${deliveryMethod === 'doorstep' ? 'text-stone-700' : 'text-gray-400'}`}></i>
                                                 <div className="text-left">
-                                                    <p className={`text-sm font-semibold ${deliveryMethod === 'doorstep' ? 'text-blue-800' : 'text-gray-700'}`}>Doorstep Delivery</p>
+                                                    <p className={`text-sm font-semibold ${deliveryMethod === 'doorstep' ? 'text-stone-800' : 'text-gray-700'}`}>Doorstep Delivery</p>
                                                     <p className="text-xs text-gray-500">Deliver to address</p>
                                                 </div>
                                             </button>
@@ -825,9 +825,9 @@ export default function POSPage() {
 
                                         {/* Delivery Address (shown for doorstep delivery) */}
                                         {deliveryMethod === 'doorstep' && (
-                                            <div className="mt-3 bg-blue-50 p-4 rounded-lg border border-blue-200 space-y-3">
+                                            <div className="mt-3 bg-stone-50 p-4 rounded-lg border border-stone-200 space-y-3">
                                                 <h4 className="text-sm font-bold text-gray-900 flex items-center">
-                                                    <i className="ri-map-pin-line mr-2 text-blue-600"></i>
+                                                    <i className="ri-map-pin-line mr-2 text-stone-600"></i>
                                                     Delivery Address
                                                 </h4>
                                                 <input
@@ -835,7 +835,7 @@ export default function POSPage() {
                                                     placeholder="Street Address / Location *"
                                                     value={guestDetails.address}
                                                     onChange={e => setGuestDetails({ ...guestDetails, address: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                 />
                                                 <div className="grid grid-cols-2 gap-3">
                                                     <input
@@ -843,12 +843,12 @@ export default function POSPage() {
                                                         placeholder="City / Town *"
                                                         value={guestDetails.city}
                                                         onChange={e => setGuestDetails({ ...guestDetails, city: e.target.value })}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                     />
                                                     <select
                                                         value={guestDetails.region}
                                                         onChange={e => setGuestDetails({ ...guestDetails, region: e.target.value })}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-stone-500 text-sm"
                                                     >
                                                         <option value="">Select Region *</option>
                                                         {ghanaRegions.map(r => (
@@ -873,7 +873,7 @@ export default function POSPage() {
                                                     key={method.key}
                                                     onClick={() => setPaymentMethod(method.key)}
                                                     className={`py-3 rounded-lg font-medium border transition-all flex flex-col items-center space-y-1 ${paymentMethod === method.key
-                                                        ? 'border-blue-600 bg-blue-50 text-blue-800 ring-1 ring-blue-600'
+                                                        ? 'border-stone-600 bg-stone-50 text-stone-800 ring-1 ring-stone-600'
                                                         : 'border-gray-200 hover:border-gray-300 text-gray-600'
                                                         }`}
                                                 >
@@ -894,13 +894,13 @@ export default function POSPage() {
                                                     type="number"
                                                     value={amountTendered}
                                                     onChange={(e) => setAmountTendered(e.target.value)}
-                                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-bold text-lg"
+                                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 outline-none font-bold text-lg"
                                                     placeholder="0.00"
                                                     autoFocus
                                                 />
                                             </div>
                                             {changeDue > 0 && (
-                                                <p className="text-right text-blue-600 font-bold mt-2">Change: GH₵{changeDue.toFixed(2)}</p>
+                                                <p className="text-right text-stone-600 font-bold mt-2">Change: GH₵{changeDue.toFixed(2)}</p>
                                             )}
                                             {changeDue < 0 && amountTendered && (
                                                 <p className="text-right text-red-500 font-medium mt-2">Insufficient amount</p>
@@ -935,10 +935,10 @@ export default function POSPage() {
 
                                     {/* Card info */}
                                     {paymentMethod === 'card' && (
-                                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                        <div className="bg-stone-50 border border-stone-200 rounded-lg p-3">
                                             <div className="flex items-start space-x-2">
-                                                <i className="ri-bank-card-line text-blue-600 mt-0.5"></i>
-                                                <div className="text-sm text-blue-800">
+                                                <i className="ri-bank-card-line text-stone-600 mt-0.5"></i>
+                                                <div className="text-sm text-stone-800">
                                                     <p className="font-semibold">Card Payment</p>
                                                     <p className="mt-1">Process the card payment on your POS terminal, then tap &quot;Complete Payment&quot; to confirm.</p>
                                                 </div>

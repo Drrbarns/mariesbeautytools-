@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function ProductsPage() {
@@ -23,22 +23,17 @@ export default function ProductsPage() {
   });
 
   const statusColors: any = {
-    'active': 'bg-blue-100 text-blue-700',
+    'active': 'bg-stone-100 text-stone-700',
     'draft': 'bg-gray-100 text-gray-700',
     'archived': 'bg-amber-100 text-amber-700',
   };
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, [sortBy]);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     const { data } = await supabase.from('categories').select('name');
     if (data) setCategories(data);
-  };
+  }, []);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       let query = supabase
@@ -90,7 +85,12 @@ export default function ProductsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [sortBy]);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories();
+  }, [fetchProducts, fetchCategories]);
 
   const handleSelectAll = () => {
     if (selectedProducts.length === products.length) {
@@ -109,27 +109,58 @@ export default function ProductsPage() {
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
-      const { error } = await supabase.from('products').delete().eq('id', productId);
-      if (!error) {
-        setProducts(products.filter(p => p.id !== productId));
-        alert('Product deleted successfully');
-      } else {
-        alert('Error deleting product');
+    if (!confirm('Are you sure you want to delete this product?')) return;
+    try {
+      // Unlink from order_items so we can delete (order history keeps product_name/sku/price)
+      await supabase.from('order_items').update({ product_id: null, variant_id: null }).eq('product_id', productId);
+      // Delete in dependency order: review_images → reviews → cart_items → wishlist_items → product_images → product_variants → products
+      const { data: reviewIds } = await supabase.from('reviews').select('id').eq('product_id', productId);
+      if (reviewIds?.length) {
+        const ids = reviewIds.map((r) => r.id);
+        await supabase.from('review_images').delete().in('review_id', ids);
+        await supabase.from('reviews').delete().eq('product_id', productId);
       }
+      await supabase.from('cart_items').delete().eq('product_id', productId);
+      await supabase.from('wishlist_items').delete().eq('product_id', productId);
+      await supabase.from('product_images').delete().eq('product_id', productId);
+      await supabase.from('product_variants').delete().eq('product_id', productId);
+      const { error } = await supabase.from('products').delete().eq('id', productId);
+      if (error) throw error;
+      setProducts(products.filter((p) => p.id !== productId));
+      alert('Product deleted successfully');
+    } catch (err: any) {
+      alert('Error deleting product: ' + (err?.message || 'Please try again.'));
     }
   };
 
   const handleBulkDelete = async () => {
-    if (confirm(`Are you sure you want to delete ${selectedProducts.length} products?`)) {
-      const { error } = await supabase.from('products').delete().in('id', selectedProducts);
-      if (!error) {
-        setProducts(products.filter(p => !selectedProducts.includes(p.id)));
-        setSelectedProducts([]);
-        alert('Products deleted successfully');
-      } else {
-        alert('Error deleting products');
+    if (!confirm(`Are you sure you want to delete ${selectedProducts.length} product(s)?`)) return;
+    const failed: string[] = [];
+    for (const productId of selectedProducts) {
+      try {
+        await supabase.from('order_items').update({ product_id: null, variant_id: null }).eq('product_id', productId);
+        const { data: reviewIds } = await supabase.from('reviews').select('id').eq('product_id', productId);
+        if (reviewIds?.length) {
+          const ids = reviewIds.map((r) => r.id);
+          await supabase.from('review_images').delete().in('review_id', ids);
+          await supabase.from('reviews').delete().eq('product_id', productId);
+        }
+        await supabase.from('cart_items').delete().eq('product_id', productId);
+        await supabase.from('wishlist_items').delete().eq('product_id', productId);
+        await supabase.from('product_images').delete().eq('product_id', productId);
+        await supabase.from('product_variants').delete().eq('product_id', productId);
+        const { error } = await supabase.from('products').delete().eq('id', productId);
+        if (error) throw error;
+      } catch {
+        failed.push(products.find((p) => p.id === productId)?.name || productId.slice(0, 8));
       }
+    }
+    setProducts(products.filter((p) => !selectedProducts.includes(p.id)));
+    setSelectedProducts([]);
+    if (failed.length) {
+      alert(`Deleted ${selectedProducts.length - failed.length}. Failed: ${failed.join(', ')}`);
+    } else {
+      alert('Products deleted successfully');
     }
   };
 
@@ -149,7 +180,7 @@ export default function ProductsPage() {
         </div>
         <Link
           href="/admin/products/new"
-          className="px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center md:items-start"
+          className="px-6 py-3 bg-stone-700 hover:bg-stone-800 text-white rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center md:items-start"
         >
           <i className="ri-add-line mr-2"></i>
           Add Product
@@ -163,7 +194,7 @@ export default function ProductsPage() {
         </div>
         <div className="bg-white rounded-xl border-2 border-gray-200 p-4">
           <p className="text-sm text-gray-600 mb-1">Active</p>
-          <p className="text-2xl font-bold text-blue-700">{stats.active}</p>
+          <p className="text-2xl font-bold text-stone-700">{stats.active}</p>
         </div>
         <div className="bg-white rounded-xl border-2 border-gray-200 p-4">
           <p className="text-sm text-gray-600 mb-1">Low Stock</p>
@@ -186,7 +217,7 @@ export default function ProductsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search products by name, SKU, or category..."
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 text-sm"
                 />
               </div>
             </div>
@@ -202,7 +233,7 @@ export default function ProductsPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium cursor-pointer"
+                className="px-4 py-3 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 font-medium cursor-pointer"
               >
                 <option value="newest">Newest First</option>
                 <option value="name">Sort by Name</option>
@@ -213,14 +244,14 @@ export default function ProductsPage() {
               <div className="flex border-2 border-gray-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`w-10 h-10 flex items-center justify-center transition-colors cursor-pointer ${viewMode === 'list' ? 'bg-blue-700 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                  className={`w-10 h-10 flex items-center justify-center transition-colors cursor-pointer ${viewMode === 'list' ? 'bg-stone-700 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   <i className="ri-list-check text-xl w-5 h-5 flex items-center justify-center"></i>
                 </button>
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`w-10 h-10 flex items-center justify-center border-l-2 border-gray-300 transition-colors cursor-pointer ${viewMode === 'grid' ? 'bg-blue-700 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                  className={`w-10 h-10 flex items-center justify-center border-l-2 border-gray-300 transition-colors cursor-pointer ${viewMode === 'grid' ? 'bg-stone-700 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   <i className="ri-grid-line text-xl w-5 h-5 flex items-center justify-center"></i>
@@ -246,8 +277,8 @@ export default function ProductsPage() {
         </div>
 
         {selectedProducts.length > 0 && (
-          <div className="p-4 bg-blue-50 border-b border-blue-200 flex items-center justify-between">
-            <p className="text-blue-800 font-semibold">
+          <div className="p-4 bg-stone-50 border-b border-stone-200 flex items-center justify-between">
+            <p className="text-stone-800 font-semibold">
               {selectedProducts.length} product{selectedProducts.length > 1 ? 's' : ''} selected
             </p>
             <div className="flex items-center space-x-2">
@@ -282,7 +313,7 @@ export default function ProductsPage() {
                       type="checkbox"
                       checked={selectedProducts.length === products.length && products.length > 0}
                       onChange={handleSelectAll}
-                      className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                      className="w-4 h-4 text-stone-700 border-gray-300 rounded focus:ring-stone-500 cursor-pointer"
                     />
                   </th>
                   <th className="text-left py-4 px-4 text-sm font-semibold text-gray-700">Product</th>
@@ -302,7 +333,7 @@ export default function ProductsPage() {
                         type="checkbox"
                         checked={selectedProducts.includes(product.id)}
                         onChange={() => handleSelectProduct(product.id)}
-                        className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 text-stone-700 border-gray-300 rounded focus:ring-stone-500 cursor-pointer"
                       />
                     </td>
                     <td className="py-4 px-4">
@@ -339,7 +370,7 @@ export default function ProductsPage() {
                       <div className="flex items-center space-x-2">
                         <Link
                           href={`/admin/products/${product.id}`}
-                          className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                          className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-stone-700 hover:bg-stone-50 rounded-lg transition-colors cursor-pointer"
                         >
                           <i className="ri-edit-line text-lg"></i>
                         </Link>
@@ -365,7 +396,7 @@ export default function ProductsPage() {
                     type="checkbox"
                     checked={selectedProducts.includes(product.id)}
                     onChange={() => handleSelectProduct(product.id)}
-                    className="absolute top-2 left-2 w-5 h-5 text-blue-700 border-gray-300 rounded focus:ring-blue-500 cursor-pointer z-10"
+                    className="absolute top-2 left-2 w-5 h-5 text-stone-700 border-gray-300 rounded focus:ring-stone-500 cursor-pointer z-10"
                   />
                   <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-3 border border-gray-200">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
@@ -385,7 +416,7 @@ export default function ProductsPage() {
                 <div className="flex items-center space-x-2">
                   <Link
                     href={`/admin/products/${product.id}`}
-                    className="flex-1 bg-blue-700 hover:bg-blue-800 text-white py-2 rounded-lg text-sm font-medium text-center transition-colors whitespace-nowrap cursor-pointer"
+                    className="flex-1 bg-stone-700 hover:bg-stone-800 text-white py-2 rounded-lg text-sm font-medium text-center transition-colors whitespace-nowrap cursor-pointer"
                   >
                     Edit
                   </Link>

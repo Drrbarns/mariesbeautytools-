@@ -21,8 +21,8 @@ export default function Home() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 2);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % 3);
+    }, 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -39,7 +39,7 @@ export default function Home() {
     banners?: Array<{ text: string; active: boolean }>;
   } = {
     hero: {
-      headline: 'Dresses, Electronics, Bags & Shoes — Everything You Need, One Store',
+      headline: 'Premium Wigs, Extensions, Closures & Frontals — Everything You Need, One Store',
       subheadline: 'Quality products locally sourced and imported directly from China. Unbeatable prices for individuals and resellers across Ghana.',
       primaryButtonText: 'Shop Collections',
       primaryButtonLink: '/shop',
@@ -104,7 +104,7 @@ export default function Home() {
     if (activeBanners.length === 0) return null;
 
     return (
-      <div className="bg-blue-900 text-white py-2 overflow-hidden relative">
+      <div className="bg-stone-900 text-white py-2 overflow-hidden relative">
         <div className="flex animate-marquee whitespace-nowrap">
           {activeBanners.concat(activeBanners).map((banner, index) => (
             <span key={index} className="mx-8 text-sm font-medium tracking-wide flex items-center">
@@ -120,116 +120,166 @@ export default function Home() {
     <main className="flex-col items-center justify-between min-h-screen">
       {renderBanners()}
 
-      {/* Hero Section */}
-      <section className="relative w-full h-[70vh] md:h-[90vh] overflow-hidden bg-black">
+      {/* Hero Section - God Level Design */}
+      <section className="relative w-full h-[85vh] md:h-[95vh] overflow-hidden bg-[#0a0a0a] group">
+
+        {/* Premium Progress Bar */}
+        <div className="absolute top-0 left-0 right-0 z-40 h-[2px] bg-white/5">
+          <div
+            key={currentSlide}
+            className="h-full bg-gradient-to-r from-transparent via-white/80 to-white shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-progress origin-left"
+            style={{ animationDuration: '3000ms' }}
+          ></div>
+        </div>
 
         {/* Background Slider + Per-Slide Content */}
         {[
           {
-            image: '/hero-1.png',
-            tag: 'Electronics & Appliances',
-            heading: <>Top-Quality <br /><span className="italic font-light">Electronics & Gadgets</span></>,
-            subtext: 'From smart kitchen appliances to everyday electronics — imported directly and priced to move.',
-            cta: { text: 'Shop Electronics', href: '/shop?category=electronics' },
-            cta2: { text: 'View All', href: '/shop' },
+            image: '/image1.jpeg',
+            tag: 'New Arrivals',
+            heading: <>Premium <br /><span className="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-stone-200 to-stone-400">Quality Collection</span></>,
+            subtext: 'Discover our latest arrivals imported directly for you. Unmatched quality at unbeatable prices.',
+            cta: { text: 'Shop Now', href: '/shop' },
+            cta2: { text: 'View Catalog', href: '/categories' },
+            position: 'object-center'
           },
           {
-            image: '/hero-2.png',
-            tag: 'Fashion & Dresses',
-            heading: <>Stunning African <br /><span className="italic font-light">Print Dresses</span></>,
-            subtext: 'Beautiful locally sourced dresses and fashion pieces — bold prints, perfect fits, unbeatable prices.',
-            cta: { text: 'Shop Dresses', href: '/shop?category=dresses' },
-            cta2: { text: 'All Fashion', href: '/shop?category=fashion' },
+            image: '/image2.jpeg',
+            tag: 'Fashion & Style',
+            heading: <>Elegance <br /><span className="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-rose-200 to-rose-400">Redefined</span></>,
+            subtext: 'Step into the season with our exclusive hair collections. Curated for the modern trendsetter.',
+            cta: { text: 'Shop Hair', href: '/shop?category=hair' },
+            cta2: { text: 'Learn More', href: '/about' },
+            position: 'object-top'
+          },
+          {
+            image: '/image3.jpeg',
+            tag: 'Exclusive Deals',
+            heading: <>Limited <br /><span className="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Time Offers</span></>,
+            subtext: 'Don\'t miss out on our seasonal sale. Great discounts on your favorite items.',
+            cta: { text: 'View Offers', href: '/shop?on_sale=true' },
+            cta2: { text: 'Contact Us', href: '/contact' },
+            position: 'object-center'
           },
         ].map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
           >
-            {/* Background Image */}
-            <Image
-              src={slide.image}
-              alt={`Hero Banner ${index + 1}`}
-              fill
-              className="object-cover"
-              priority={index === 0}
-              quality={90}
-            />
-            <div className="absolute inset-0 bg-black/20"></div> {/* 20% black overlay */}
+            {/* Background Image with Ken Burns Effect */}
+            <div className={`absolute inset-0 ${index === currentSlide ? 'animate-ken-burns' : ''}`}>
+              <Image
+                src={slide.image}
+                alt={`Hero Banner ${index + 1}`}
+                fill
+                className={`object-cover ${slide.position}`}
+                priority={index === 0}
+                sizes="100vw"
+                quality={85}
+              />
+            </div>
 
-            {/* Slide Content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 max-w-5xl mx-auto mt-[-50px]">
-              <p
-                key={`tag-${currentSlide}`}
-                className="text-white/90 text-sm md:text-base tracking-[0.2em] uppercase font-medium mb-6 animate-fade-in-up"
-              >
-                {slide.tag}
-              </p>
+            {/* Premium Overlays - Dark gradients, subtle noise */}
+            <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
 
-              <h1
-                key={`heading-${currentSlide}`}
-                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 leading-tight drop-shadow-lg animate-fade-in-up"
-                style={{ animationDelay: '0.1s' }}
-              >
-                {slide.heading}
-              </h1>
+            {/* Cinematic Noise Texture */}
+            <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
-              <p
-                key={`sub-${currentSlide}`}
-                className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 font-light tracking-wide animate-fade-in-up"
-                style={{ animationDelay: '0.2s' }}
-              >
-                {slide.subtext}
-              </p>
+            {/* Slide Content - Center aligned */}
+            <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 md:px-16 lg:px-24 max-w-7xl mx-auto w-full h-full mt-[-20px] z-10">
+              <div className="max-w-2xl lg:max-w-4xl flex flex-col items-center">
 
-              <div
-                key={`cta-${currentSlide}`}
-                className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 animate-fade-in-up"
-                style={{ animationDelay: '0.3s' }}
-              >
-                <Link
-                  href={slide.cta.href}
-                  className="bg-white text-gray-900 px-8 py-3 sm:px-10 sm:py-4 rounded-full font-medium text-base sm:text-lg hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-1 duration-300"
+                {/* Minimalist Tag */}
+                <div
+                  className={`flex items-center justify-center gap-4 overflow-hidden mb-8 transition-all duration-1000 delay-[300ms] ${index === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                  {slide.cta.text}
-                </Link>
-                <Link
-                  href={slide.cta2.href}
-                  className="px-8 py-3 sm:px-10 sm:py-4 rounded-full font-medium text-base sm:text-lg text-white border border-white/40 hover:bg-white/10 transition-colors backdrop-blur-sm"
-                >
-                  {slide.cta2.text}
-                </Link>
+                  <span className="h-[1px] w-8 bg-white/60"></span>
+                  <span className="text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase font-medium">
+                    {slide.tag}
+                  </span>
+                  <span className="h-[1px] w-8 bg-white/60"></span>
+                </div>
+
+                {/* Stately Heading */}
+                <div className={`transition-all duration-1000 delay-[400ms] ${index === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                  <h1 className="text-6xl sm:text-7xl md:text-[5.5rem] lg:text-[6.5rem] font-serif text-white mb-6 leading-[1.05] tracking-tight drop-shadow-2xl text-center">
+                    {slide.heading}
+                  </h1>
+                </div>
+
+                {/* Elegant Subtext */}
+                <div className={`transition-all duration-1000 delay-[500ms] ${index === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                  <p className="text-lg md:text-xl lg:text-2xl text-white/70 max-w-2xl mx-auto mb-12 font-light leading-relaxed tracking-wide text-center">
+                    {slide.subtext}
+                  </p>
+                </div>
+
+                {/* God-Level Rounded Buttons */}
+                <div className={`flex flex-col sm:flex-row justify-center items-center gap-5 w-full sm:w-auto transition-all duration-[1200ms] delay-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${index === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                  {/* Primary Solid Button */}
+                  <Link
+                    href={slide.cta.href}
+                    className="group relative flex items-center justify-center gap-4 px-8 py-[16px] bg-white text-gray-950 rounded-full font-medium tracking-[0.2em] text-xs sm:text-sm uppercase overflow-hidden hover:scale-[1.03] transition-all duration-500 w-full sm:w-auto shadow-[0_0_0_0_rgba(255,255,255,0)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.6)]"
+                  >
+                    {/* Hover Glow Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <span className="relative z-10 font-bold">{slide.cta.text}</span>
+
+                    {/* Circular Icon Container */}
+                    <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-black text-white group-hover:bg-gray-800 transition-colors duration-500">
+                      <i className="ri-arrow-right-line text-sm transition-transform duration-500 group-hover:translate-x-1"></i>
+                    </span>
+                  </Link>
+
+                  {/* Secondary Glass Button */}
+                  <Link
+                    href={slide.cta2.href}
+                    className="group relative flex items-center justify-center px-10 py-[18px] bg-white/5 border border-white/30 text-white rounded-full font-medium tracking-[0.2em] text-xs sm:text-sm uppercase hover:bg-white hover:text-black transition-all duration-500 w-full sm:w-auto backdrop-blur-md overflow-hidden hover:scale-[1.03] shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
+                  >
+                    {/* Shine effect that sweeps across on hover */}
+                    <span className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[150%] skew-x-12 group-hover:translate-x-[150%] transition-transform duration-1000 ease-out z-0"></span>
+
+                    <span className="relative z-10 flex items-center justify-center gap-3">
+                      {slide.cta2.text}
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Bottom Features (Desktop) */}
-        <div className="absolute bottom-12 left-0 right-0 z-20 hidden md:flex justify-center items-center gap-16 text-white text-center">
-          <div>
-            <p className="font-serif text-lg font-medium">Direct Import</p>
-            <p className="text-xs text-white/60 font-light tracking-wide uppercase mt-1">From China &amp; Local Suppliers</p>
+        {/* Slide Indicators - Architectural and Minimalist */}
+        <div className="absolute bottom-12 right-6 md:right-16 z-20 flex items-center gap-6">
+          <div className="text-white/70 font-serif tabular-nums text-lg">
+            0{currentSlide + 1}
           </div>
-          <div className="w-px h-10 bg-white/20"></div>
-          <div>
-            <p className="font-serif text-lg font-medium">Verified Quality</p>
-            <p className="text-xs text-white/60 font-light tracking-wide uppercase mt-1">Every Item Checked</p>
+          <div className="flex gap-2">
+            {[0, 1, 2].map((i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentSlide(i)}
+                className={`transition-all duration-500 rounded-full relative overflow-hidden ${currentSlide === i
+                  ? 'w-16 h-[2px] bg-white/20'
+                  : 'w-4 h-[2px] bg-white/20 hover:bg-white/40'
+                  }`}
+                aria-label={`Go to slide ${i + 1}`}
+              >
+                {currentSlide === i && (
+                  <span
+                    className="absolute top-0 left-0 h-full bg-white block animate-progress origin-left"
+                    style={{ animationDuration: '3000ms' }}
+                  ></span>
+                )}
+              </button>
+            ))}
           </div>
-          <div className="w-px h-10 bg-white/20"></div>
-          <div>
-            <p className="font-serif text-lg font-medium">Best Prices</p>
-            <p className="text-xs text-white/60 font-light tracking-wide uppercase mt-1">Wholesale &amp; Retail</p>
+          <div className="text-white/40 font-serif tabular-nums text-sm">
+            03
           </div>
-        </div>
-
-        {/* Floating "Exclusive Offer" Card (Bottom Left) */}
-        <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-20 bg-white rounded-xl p-6 shadow-2xl max-w-[280px] animate-fade-in hidden lg:block">
-          <p className="font-serif text-blue-800 text-lg italic mb-0.5">Exclusive Offer</p>
-          <h3 className="text-3xl font-bold text-gray-900 mb-1">25% Off</h3>
-          <p className="text-xs text-gray-500 font-medium leading-relaxed">
-            On your first order. <br />
-            <Link href="/shop" className="underline text-blue-700 hover:text-blue-900 mt-1 inline-block">Shop now</Link>
-          </p>
         </div>
 
       </section>
@@ -240,34 +290,43 @@ export default function Home() {
           <AnimatedSection className="flex items-end justify-between mb-12">
             <div>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4">Shop by Category</h2>
-              <p className="text-gray-600 text-lg max-w-md">From dresses to electronics, bags to shoes</p>
+              <p className="text-gray-600 text-lg max-w-md">From premium wigs to luxurious extensions</p>
             </div>
-            <Link href="/categories" className="hidden md:flex items-center text-blue-800 font-medium hover:text-blue-900 transition-colors">
-              View All <i className="ri-arrow-right-line ml-2"></i>
+            <Link href="/categories" className="hidden md:flex items-center justify-center w-14 h-14 rounded-full border border-stone-200 hover:border-stone-900 hover:bg-stone-900 text-stone-900 hover:text-white transition-all duration-500 group">
+              <i className="ri-arrow-right-line text-xl group-hover:translate-x-1 transition-transform"></i>
             </Link>
           </AnimatedSection>
 
           <AnimatedGrid className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {categories.map((category) => (
               <Link href={`/shop?category=${category.slug}`} key={category.id} className="group cursor-pointer block relative">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-xl transition-all duration-300">
+                <div className="aspect-[3/4] rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:-translate-y-2">
                   <Image
                     src={category.image || category.image_url || 'https://via.placeholder.com/600x800?text=' + encodeURIComponent(category.name)}
                     alt={category.name}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-110"
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    quality={75}
+                    quality={85}
+                    loading="lazy"
                   />
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
-                  
+                  {/* Premium Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10 opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+
+                  {/* Inner Glass Border */}
+                  <div className="absolute inset-0 rounded-2xl border border-white/10 z-10 pointer-events-none transition-colors duration-500 group-hover:border-white/20"></div>
+
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end h-full">
-                    <h3 className="font-serif font-bold text-white text-xl md:text-2xl mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{category.name}</h3>
-                    <div className="flex items-center text-white/90 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75">
-                      <span className="uppercase tracking-wider text-xs">Shop Now</span>
-                      <i className="ri-arrow-right-line ml-2 transition-transform group-hover:translate-x-1"></i>
+                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end z-20">
+                    <div className="overflow-hidden">
+                      <h3 className="font-serif font-medium text-white text-2xl md:text-3xl tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">{category.name}</h3>
+                    </div>
+
+                    <div className="flex items-center text-white/90 font-medium mt-3 opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 delay-100">
+                      <span className="uppercase tracking-[0.15em] text-xs font-semibold">Explore</span>
+                      <div className="ml-4 w-6 h-[1px] bg-white/70 group-hover:w-10 transition-all duration-700 ease-out relative">
+                        <i className="ri-arrow-right-s-line absolute -right-2 -top-[11px] text-[22px] text-white/70"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -276,8 +335,8 @@ export default function Home() {
           </AnimatedGrid>
 
           <div className="mt-8 text-center md:hidden">
-            <Link href="/categories" className="inline-flex items-center text-blue-800 font-medium hover:text-blue-900 transition-colors">
-              View All <i className="ri-arrow-right-line ml-2"></i>
+            <Link href="/categories" className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-stone-200 hover:border-stone-900 hover:bg-stone-900 text-stone-900 hover:text-white transition-all duration-500 group mx-auto">
+              <i className="ri-arrow-right-line text-xl group-hover:translate-x-1 transition-transform"></i>
             </Link>
           </div>
         </div>
@@ -347,7 +406,7 @@ export default function Home() {
           <div className="text-center mt-16">
             <Link
               href="/shop"
-              className="inline-flex items-center justify-center bg-gray-900 text-white px-10 py-4 rounded-full font-medium hover:bg-blue-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 btn-animate"
+              className="inline-flex items-center justify-center bg-gray-900 text-white px-10 py-4 rounded-full font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 btn-animate"
             >
               View All Products
             </Link>

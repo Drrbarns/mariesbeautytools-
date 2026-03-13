@@ -19,7 +19,7 @@ The SMS notification system has been updated with improved security, better erro
 | Variable | Purpose | Required |
 |----------|---------|----------|
 | `MOOLRE_API_KEY` | VAS Key for SMS sending | Yes |
-| `MOOLRE_API_USER` | User ID (e.g., `doctorbarns`) | Yes |
+| `MOOLRE_API_USER` | User ID (your Moolre username) | Yes |
 | `MOOLRE_API_PUBKEY` | Public key for payment | Yes |
 
 ### Email (Optional but Recommended)
@@ -38,7 +38,7 @@ The SMS notification system has been updated with improved security, better erro
 ### App Configuration
 | Variable | Purpose | Required |
 |----------|---------|----------|
-| `NEXT_PUBLIC_APP_URL` | Production URL (`https://www.multimeysupplies.com/`) | Yes |
+| `NEXT_PUBLIC_APP_URL` | Production URL (e.g. `https://your-domain.com`) | Yes |
 
 ## 3. Important Setup Steps
 
@@ -51,7 +51,7 @@ The SMS notification system has been updated with improved security, better erro
 ### Step 2: Verify Moolre Callback URL
 The callback URL configured during payment should be:
 ```
-https://www.multimeysupplies.com/api/payment/moolre/callback
+https://your-domain.com/api/payment/moolre/callback
 ```
 
 **Note:** This URL is automatically set from the `NEXT_PUBLIC_APP_URL` environment variable.

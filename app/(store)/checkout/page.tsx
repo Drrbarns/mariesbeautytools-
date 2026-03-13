@@ -313,7 +313,7 @@ export default function CheckoutPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h1>
           <p className="text-gray-600 mb-8">Add some items to start the checkout process.</p>
-          <Link href="/shop" className="inline-block bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors">
+          <Link href="/shop" className="inline-block bg-stone-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-stone-800 transition-colors">
             Return to Shop
           </Link>
         </div>
@@ -340,33 +340,33 @@ export default function CheckoutPage() {
               <button
                 onClick={() => !user && setCheckoutType('guest')}
                 className={`p-6 rounded-xl border-2 transition-all text-left cursor-pointer ${checkoutType === 'guest'
-                  ? 'border-blue-700 bg-blue-50'
+                  ? 'border-stone-700 bg-stone-50'
                   : 'border-gray-200 hover:border-gray-300'
                   } ${user ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={!!user}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <i className="ri-user-line text-3xl text-blue-700"></i>
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${checkoutType === 'guest' ? 'border-blue-700 bg-blue-700' : 'border-gray-300'
+                  <i className="ri-user-line text-3xl text-stone-700"></i>
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${checkoutType === 'guest' ? 'border-stone-700 bg-stone-700' : 'border-gray-300'
                     }`}>
                     {checkoutType === 'guest' && <i className="ri-check-line text-white text-sm"></i>}
                   </div>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Guest Checkout</h3>
                 <p className="text-sm text-gray-600">Quick checkout without creating an account</p>
-                {user && <p className="text-xs text-blue-600 mt-2">You are logged in</p>}
+                {user && <p className="text-xs text-stone-600 mt-2">You are logged in</p>}
               </button>
 
               <button
                 onClick={() => setCheckoutType('account')}
                 className={`p-6 rounded-xl border-2 transition-all text-left cursor-pointer ${checkoutType === 'account'
-                  ? 'border-blue-700 bg-blue-50'
+                  ? 'border-stone-700 bg-stone-50'
                   : 'border-gray-200 hover:border-gray-300'
                   }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <i className="ri-account-circle-line text-3xl text-blue-700"></i>
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${checkoutType === 'account' ? 'border-blue-700 bg-blue-700' : 'border-gray-300'
+                  <i className="ri-account-circle-line text-3xl text-stone-700"></i>
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${checkoutType === 'account' ? 'border-stone-700 bg-stone-700' : 'border-gray-300'
                     }`}>
                     {checkoutType === 'account' && <i className="ri-check-line text-white text-sm"></i>}
                   </div>
@@ -399,7 +399,7 @@ export default function CheckoutPage() {
                           type="text"
                           value={shippingData.firstName}
                           onChange={(e) => setShippingData({ ...shippingData, firstName: e.target.value })}
-                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'
+                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'
                             }`}
                           placeholder="John"
                         />
@@ -413,7 +413,7 @@ export default function CheckoutPage() {
                           type="text"
                           value={shippingData.lastName}
                           onChange={(e) => setShippingData({ ...shippingData, lastName: e.target.value })}
-                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.lastName ? 'border-red-500' : 'border-gray-300'
+                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.lastName ? 'border-red-500' : 'border-gray-300'
                             }`}
                           placeholder="Doe"
                         />
@@ -430,7 +430,7 @@ export default function CheckoutPage() {
                         value={shippingData.email}
                         readOnly={!!user} // Make read-only if logged in (optional, but safer)
                         onChange={(e) => setShippingData({ ...shippingData, email: e.target.value })}
-                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
                           } ${user ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                         placeholder="you@example.com"
                       />
@@ -445,7 +445,7 @@ export default function CheckoutPage() {
                         type="tel"
                         value={shippingData.phone}
                         onChange={(e) => setShippingData({ ...shippingData, phone: e.target.value })}
-                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.phone ? 'border-red-500' : 'border-gray-300'
                           }`}
                         placeholder="+233 XX XXX XXXX"
                       />
@@ -460,7 +460,7 @@ export default function CheckoutPage() {
                         type="text"
                         value={shippingData.address}
                         onChange={(e) => setShippingData({ ...shippingData, address: e.target.value })}
-                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.address ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.address ? 'border-red-500' : 'border-gray-300'
                           }`}
                         placeholder="House number and street name"
                       />
@@ -476,7 +476,7 @@ export default function CheckoutPage() {
                           type="text"
                           value={shippingData.city}
                           onChange={(e) => setShippingData({ ...shippingData, city: e.target.value })}
-                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${errors.city ? 'border-red-500' : 'border-gray-300'
+                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 ${errors.city ? 'border-red-500' : 'border-gray-300'
                             }`}
                           placeholder="Accra"
                         />
@@ -489,7 +489,7 @@ export default function CheckoutPage() {
                         <select
                           value={shippingData.region}
                           onChange={(e) => setShippingData({ ...shippingData, region: e.target.value })}
-                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white ${errors.region ? 'border-red-500' : 'border-gray-300'
+                          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-stone-500 bg-white ${errors.region ? 'border-red-500' : 'border-gray-300'
                             }`}
                         >
                           <option value="">Select Region</option>
@@ -507,7 +507,7 @@ export default function CheckoutPage() {
                           type="checkbox"
                           checked={saveAddress}
                           onChange={(e) => setSaveAddress(e.target.checked)}
-                          className="w-5 h-5 text-blue-700 rounded border-gray-300 focus:ring-blue-500"
+                          className="w-5 h-5 text-stone-700 rounded border-gray-300 focus:ring-stone-500"
                         />
                         <span className="text-sm text-gray-700">Save this address for future orders</span>
                       </label>
@@ -516,7 +516,7 @@ export default function CheckoutPage() {
 
                   <button
                     onClick={handleContinueToDelivery}
-                    className="w-full mt-6 bg-blue-700 hover:bg-blue-800 text-white py-4 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer"
+                    className="w-full mt-6 bg-stone-700 hover:bg-stone-800 text-white py-4 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer"
                   >
                     Continue to Delivery
                   </button>
@@ -531,7 +531,7 @@ export default function CheckoutPage() {
                 <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Delivery Method</h2>
                   <div className="space-y-4">
-                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'pickup' ? 'border-blue-700 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'pickup' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
                       }`}>
                       <div className="flex items-center space-x-4">
                         <input
@@ -540,17 +540,17 @@ export default function CheckoutPage() {
                           value="pickup"
                           checked={deliveryMethod === 'pickup'}
                           onChange={(e) => setDeliveryMethod(e.target.value)}
-                          className="w-5 h-5 text-blue-700"
+                          className="w-5 h-5 text-stone-700"
                         />
                         <div>
                           <p className="font-semibold text-gray-900">Store Pickup</p>
                           <p className="text-sm text-gray-600">Pick up from our store — Ready in 24 hours</p>
                         </div>
                       </div>
-                      <p className="font-bold text-blue-700">FREE</p>
+                      <p className="font-bold text-stone-700">FREE</p>
                     </label>
 
-                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'doorstep' ? 'border-blue-700 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'doorstep' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
                       }`}>
                       <div className="flex items-center space-x-4">
                         <input
@@ -559,7 +559,7 @@ export default function CheckoutPage() {
                           value="doorstep"
                           checked={deliveryMethod === 'doorstep'}
                           onChange={(e) => setDeliveryMethod(e.target.value)}
-                          className="w-5 h-5 text-blue-700"
+                          className="w-5 h-5 text-stone-700"
                         />
                         <div>
                           <p className="font-semibold text-gray-900">Doorstep Delivery</p>
@@ -570,10 +570,10 @@ export default function CheckoutPage() {
                     </label>
 
                     {/* Comprehensive delivery options - to be re-enabled later
-                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'accra' ? 'border-blue-700 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'accra' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
                       }`}>
                       <div className="flex items-center space-x-4">
-                        <input type="radio" name="delivery" value="accra" checked={deliveryMethod === 'accra'} onChange={(e) => setDeliveryMethod(e.target.value)} className="w-5 h-5 text-blue-700" />
+                        <input type="radio" name="delivery" value="accra" checked={deliveryMethod === 'accra'} onChange={(e) => setDeliveryMethod(e.target.value)} className="w-5 h-5 text-stone-700" />
                         <div>
                           <p className="font-semibold text-gray-900">Accra Delivery</p>
                           <p className="text-sm text-gray-600">Delivery within Accra</p>
@@ -581,10 +581,10 @@ export default function CheckoutPage() {
                       </div>
                       <p className="font-bold text-gray-900">GH₵ 40.00</p>
                     </label>
-                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'outside-accra' ? 'border-blue-700 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${deliveryMethod === 'outside-accra' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
                       }`}>
                       <div className="flex items-center space-x-4">
-                        <input type="radio" name="delivery" value="outside-accra" checked={deliveryMethod === 'outside-accra'} onChange={(e) => setDeliveryMethod(e.target.value)} className="w-5 h-5 text-blue-700" />
+                        <input type="radio" name="delivery" value="outside-accra" checked={deliveryMethod === 'outside-accra'} onChange={(e) => setDeliveryMethod(e.target.value)} className="w-5 h-5 text-stone-700" />
                         <div>
                           <p className="font-semibold text-gray-900">Outside Accra Delivery</p>
                           <p className="text-sm text-gray-600">Delivery to bus stations (VIP, OA, STC, etc.)</p>
@@ -606,7 +606,7 @@ export default function CheckoutPage() {
                     <button
                       onClick={handleContinueToPayment}
                       disabled={isLoading}
-                      className="flex-1 bg-blue-700 hover:bg-blue-800 text-white py-4 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer disabled:opacity-70 flex items-center justify-center"
+                      className="flex-1 bg-stone-700 hover:bg-stone-800 text-white py-4 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer disabled:opacity-70 flex items-center justify-center"
                     >
                       {isLoading ? (
                         <>

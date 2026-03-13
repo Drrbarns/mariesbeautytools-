@@ -19,7 +19,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       category: 'Shopping Tips',
       date: 'December 15, 2024',
       readTime: '8 min read',
-      author: 'Ama Osei',
+      author: 'Editor',
       content: `
         <p>Online shopping has revolutionised the way Ghanaians purchase products, offering convenience, variety, and competitive prices. However, navigating the world of ecommerce can be daunting if you're new to it. This comprehensive guide will help you shop online safely and confidently.</p>
 
@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       category: 'Home & Living',
       date: 'December 12, 2024',
       readTime: '6 min read',
-      author: 'Yaw Darko',
+      author: 'Editor',
       content: `
         <p>Transform your living space with these carefully selected must-have products. Whether you're refreshing your décor or starting from scratch, these items will elevate your home's comfort and style.</p>
 
@@ -124,8 +124,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         <h2>7. Comfortable Throw Pillows</h2>
         <p>Instantly refresh your living room or bedroom with decorative throw pillows. Mix textures and colours to create visual interest.</p>
 
-        <h2>8. Smart Power Strip</h2>
-        <p>Protect your electronics and reduce energy waste with a smart power strip that cuts power to devices in standby mode.</p>
+        <h2>8. Quality Styling Tools</h2>
+        <p>Protect your wigs and reduce styling time with quality hot tools designed specifically for hair extensions.</p>
 
         <h2>9. Bath Towel Set</h2>
         <p>Luxury doesn't have to be expensive. A set of soft, absorbent towels in coordinating colours makes your bathroom feel like a spa.</p>
@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       category: 'Buying Guide',
       date: 'December 10, 2024',
       readTime: '7 min read',
-      author: 'Kwame Mensah',
+      author: 'Editor',
       content: `
         <p>In a market flooded with options, choosing quality products can be challenging. This guide will help you identify genuine quality and make purchasing decisions you won't regret.</p>
 
@@ -290,11 +290,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span className="inline-block bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block bg-stone-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
               {post.category}
             </span>
             <h1 className="text-5xl font-bold text-white mb-6">{post.title}</h1>
-            <div className="flex items-center justify-center gap-6 text-blue-100">
+            <div className="flex items-center justify-center gap-6 text-stone-100">
               <span className="flex items-center gap-2">
                 <i className="ri-user-line"></i>
                 {post.author}
@@ -329,8 +329,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             <div>
               <p className="text-sm text-gray-500 mb-2">Written by</p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <i className="ri-user-line text-blue-700 text-xl"></i>
+                <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center">
+                  <i className="ri-user-line text-stone-700 text-xl"></i>
                 </div>
                 <div>
                   <p className="font-bold text-gray-900">{post.author}</p>
@@ -341,16 +341,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             <div>
               <p className="text-sm text-gray-500 mb-3">Share this article</p>
               <div className="flex gap-3">
-                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-100 transition-colors cursor-pointer">
+                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-stone-100 transition-colors cursor-pointer">
                   <i className="ri-facebook-fill text-gray-600"></i>
                 </button>
-                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-100 transition-colors cursor-pointer">
+                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-stone-100 transition-colors cursor-pointer">
                   <i className="ri-twitter-fill text-gray-600"></i>
                 </button>
-                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-100 transition-colors cursor-pointer">
+                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-stone-100 transition-colors cursor-pointer">
                   <i className="ri-linkedin-fill text-gray-600"></i>
                 </button>
-                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-100 transition-colors cursor-pointer">
+                <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-stone-100 transition-colors cursor-pointer">
                   <i className="ri-whatsapp-line text-gray-600"></i>
                 </button>
               </div>
@@ -373,7 +373,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
                     alt={relatedPost.title}
                     className="w-full h-full object-cover"
                   />
-                  <span className="absolute top-4 left-4 bg-blue-700 text-white px-3 py-1 rounded-full text-xs font-medium">
+                  <span className="absolute top-4 left-4 bg-stone-700 text-white px-3 py-1 rounded-full text-xs font-medium">
                     {relatedPost.category}
                   </span>
                 </div>
@@ -387,9 +387,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </div>
         </div>
 
-        <div className="mt-16 bg-gradient-to-br from-blue-700 to-blue-900 rounded-2xl p-12 text-center text-white">
+        <div className="mt-16 bg-gradient-to-br from-stone-700 to-stone-900 rounded-2xl p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-4">Enjoyed This Article?</h2>
-          <p className="text-blue-100 mb-8 text-lg">
+          <p className="text-stone-100 mb-8 text-lg">
             Subscribe to our newsletter for more shopping tips and exclusive offers
           </p>
           <form className="max-w-md mx-auto flex gap-3">
@@ -400,7 +400,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             />
             <button
               type="submit"
-              className="bg-white text-blue-700 px-8 py-4 rounded-full font-medium hover:bg-blue-50 transition-colors whitespace-nowrap"
+              className="bg-white text-stone-700 px-8 py-4 rounded-full font-medium hover:bg-stone-50 transition-colors whitespace-nowrap"
             >
               Subscribe
             </button>
@@ -410,7 +410,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         <div className="mt-12 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-blue-700 font-medium hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-stone-700 font-medium hover:gap-3 transition-all"
           >
             <i className="ri-arrow-left-line"></i>
             Back to Blog

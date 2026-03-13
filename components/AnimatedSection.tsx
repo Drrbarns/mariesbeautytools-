@@ -111,7 +111,8 @@ export function AnimatedGrid({
     observer.observe(container);
 
     return () => observer.unobserve(container);
-  }, [childrenArray.length, staggerDelay]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once when container becomes visible; children identity captured at intersect
+  }, [childrenArray, staggerDelay]);
 
   return (
     <div ref={containerRef} className={className}>
