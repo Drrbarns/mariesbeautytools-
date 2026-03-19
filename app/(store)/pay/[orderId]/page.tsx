@@ -60,12 +60,10 @@ export default function PaymentPage() {
     }
   }, [orderId, router]);
 
-  const handlePayNow = async () => {
+  const handlePayWithMoolre = async () => {
     if (!order) return;
-
     setProcessing(true);
     setError(null);
-
     try {
       const paymentRes = await fetch('/api/payment/moolre', {
         method: 'POST',
@@ -76,19 +74,35 @@ export default function PaymentPage() {
           customerEmail: order.email
         })
       });
-
       const paymentResult = await paymentRes.json();
-
-      if (!paymentResult.success) {
-        throw new Error(paymentResult.message || 'Payment initialization failed');
-      }
-
-      // Redirect to Moolre payment page
+      if (!paymentResult.success) throw new Error(paymentResult.message || 'Payment initialization failed');
       window.location.href = paymentResult.url;
-
     } catch (err: any) {
       console.error('Payment error:', err);
       setError(err.message || 'Failed to initialize payment. Please try again.');
+      setProcessing(false);
+    }
+  };
+
+  const handlePayWithPaystack = async () => {
+    if (!order) return;
+    setProcessing(true);
+    setError(null);
+    try {
+      const paymentRes = await fetch('/api/payment/paystack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: order.order_number,
+          customerEmail: order.email
+        })
+      });
+      const paymentResult = await paymentRes.json();
+      if (!paymentResult.success) throw new Error(paymentResult.message || 'Payment initialization failed');
+      window.location.href = paymentResult.url;
+    } catch (err: any) {
+      console.error('Paystack error:', err);
+      setError(err.message || 'Failed to initialize card payment. Please try again.');
       setProcessing(false);
     }
   };
@@ -205,33 +219,41 @@ export default function PaymentPage() {
           </div>
         )}
 
-        {/* Pay Button */}
-        <button
-          onClick={handlePayNow}
-          disabled={processing}
-          className="w-full bg-stone-700 hover:bg-stone-800 text-white py-4 rounded-xl font-semibold text-lg transition-colors disabled:opacity-70 flex items-center justify-center cursor-pointer"
-        >
-          {processing ? (
-            <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Processing...
-            </>
-          ) : (
-            <>
-              <i className="ri-secure-payment-line mr-2"></i>
-              Pay GH₵ {order?.total?.toFixed(2)} with Mobile Money
-            </>
-          )}
-        </button>
+        {/* Payment options */}
+        <p className="text-sm font-semibold text-gray-700 mb-3">Choose payment method</p>
+        <div className="space-y-3 mb-4">
+          <button
+            onClick={handlePayWithMoolre}
+            disabled={processing}
+            className="w-full bg-stone-700 hover:bg-stone-800 text-white py-4 rounded-xl font-semibold transition-colors disabled:opacity-70 flex items-center justify-center cursor-pointer border-2 border-transparent"
+          >
+            <i className="ri-smartphone-line mr-2 text-xl"></i>
+            Pay GH₵ {order?.total?.toFixed(2)} with Mobile Money (Moolre)
+          </button>
+          <button
+            onClick={handlePayWithPaystack}
+            disabled={processing}
+            className="w-full bg-white hover:bg-gray-50 text-gray-900 py-4 rounded-xl font-semibold transition-colors disabled:opacity-70 flex items-center justify-center cursor-pointer border-2 border-stone-300"
+          >
+            <i className="ri-bank-card-line mr-2 text-xl"></i>
+            Pay GH₵ {order?.total?.toFixed(2)} with Card (Paystack)
+          </button>
+        </div>
+        {processing && (
+          <div className="flex items-center justify-center text-gray-600 text-sm">
+            <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Redirecting to payment...
+          </div>
+        )}
 
         {/* Security Note */}
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500 flex items-center justify-center">
             <i className="ri-lock-line mr-1"></i>
-            Secure payment powered by Moolre
+            Secure payment — Mobile Money (Moolre) or Card (Paystack)
           </p>
         </div>
 

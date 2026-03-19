@@ -249,8 +249,6 @@ export default function CheckoutPage() {
       // 4. Handle Payment Redirects or Completion
       if (paymentMethod === 'moolre') {
         try {
-          // Payment link reminder will be sent automatically after 15 mins if unpaid (via cron)
-
           const paymentRes = await fetch('/api/payment/moolre', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -260,25 +258,43 @@ export default function CheckoutPage() {
               customerEmail: shippingData.email
             })
           });
-
           const paymentResult = await paymentRes.json();
-
           if (!paymentResult.success) {
             throw new Error(paymentResult.message || 'Payment initialization failed');
           }
-
-          // Clear cart before redirecting
           clearCart();
-
-          // Redirect to Moolre
           window.location.href = paymentResult.url;
           return;
-
         } catch (paymentErr: any) {
           console.error('Payment Error:', paymentErr);
           alert('Failed to initialize payment: ' + paymentErr.message);
           setIsLoading(false);
-          return; // Stop execution
+          return;
+        }
+      }
+
+      if (paymentMethod === 'paystack') {
+        try {
+          const paymentRes = await fetch('/api/payment/paystack', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              orderId: orderNumber,
+              customerEmail: shippingData.email
+            })
+          });
+          const paymentResult = await paymentRes.json();
+          if (!paymentResult.success) {
+            throw new Error(paymentResult.message || 'Payment initialization failed');
+          }
+          clearCart();
+          window.location.href = paymentResult.url;
+          return;
+        } catch (paymentErr: any) {
+          console.error('Paystack Error:', paymentErr);
+          alert('Failed to initialize card payment: ' + paymentErr.message);
+          setIsLoading(false);
+          return;
         }
       }
 
@@ -595,6 +611,47 @@ export default function CheckoutPage() {
                     */}
                   </div>
 
+                  <h2 className="text-xl font-bold text-gray-900 mb-4 mt-6">Payment Method</h2>
+                  <div className="space-y-4">
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${paymentMethod === 'moolre' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
+                      }`}>
+                      <div className="flex items-center space-x-4">
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="moolre"
+                          checked={paymentMethod === 'moolre'}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="w-5 h-5 text-stone-700"
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-900">Mobile Money</p>
+                          <p className="text-sm text-gray-600">Pay with MTN, Vodafone, AirtelTigo (Moolre)</p>
+                        </div>
+                      </div>
+                      <i className="ri-smartphone-line text-2xl text-stone-600"></i>
+                    </label>
+
+                    <label className={`flex items-center justify-between p-4 border-2 rounded-lg cursor-pointer transition-colors ${paymentMethod === 'paystack' ? 'border-stone-700 bg-stone-50' : 'border-gray-300 hover:border-gray-400'
+                      }`}>
+                      <div className="flex items-center space-x-4">
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="paystack"
+                          checked={paymentMethod === 'paystack'}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="w-5 h-5 text-stone-700"
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-900">Card (Paystack)</p>
+                          <p className="text-sm text-gray-600">Pay with Visa, Mastercard or other cards</p>
+                        </div>
+                      </div>
+                      <i className="ri-bank-card-line text-2xl text-stone-600"></i>
+                    </label>
+                  </div>
+
                   <div className="flex flex-col-reverse md:flex-row gap-4 mt-6">
                     <button
                       onClick={() => setCurrentStep(1)}
@@ -616,8 +673,10 @@ export default function CheckoutPage() {
                           </svg>
                           Processing...
                         </>
+                      ) : paymentMethod === 'paystack' ? (
+                        'Place Order & Pay with Card'
                       ) : (
-                        'Pay with Mobile Money'
+                        'Place Order & Pay with Mobile Money'
                       )}
                     </button>
                   </div>
